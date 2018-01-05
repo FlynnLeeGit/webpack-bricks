@@ -8,12 +8,13 @@ const {
   devServer,
   html,
   env,
+  plugin,
   when,
   alias,
   extensions,
   custom,
   devtool,
-  uglifyParallel
+  uglifyParallel,
 } = require('./index.js')
 
 const config = createConfig([
@@ -27,6 +28,7 @@ const config = createConfig([
   alias(),
   extensions(['.vue', '.json']),
   html(),
+  plugin('clean', 'dist'),
   env('develop', [devServer()]),
   env('production', [devtool('sourcemap'), uglifyParallel()])
 ])
