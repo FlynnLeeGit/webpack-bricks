@@ -5,7 +5,7 @@
 this project is under develop,api maybe change
 
 define webpack.config.js like this
-
+all defined bricks can see in https://github.com/FlynnLeeGit/webpack-bricks/tree/master/bricks
 ```js
 const {
   createConfig,
