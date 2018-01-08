@@ -8,7 +8,7 @@ const uglifyParallelBrick = options => config => {
   const defaultOptions = {
     workers: require('os').cpus().length,
     output: {
-      beautify: false,
+      beautify: false
       // comments: false
     },
     compress: {
@@ -23,8 +23,7 @@ const uglifyParallelBrick = options => config => {
     }
   }
   const uglifyOptions = merge(defaultOptions, options)
-
-  return addPlugin(config, new UglifyParallelPlugin(uglifyOptions))
+  return addPlugin(new UglifyParallelPlugin(uglifyOptions))(config)
 }
 
 module.exports = uglifyParallelBrick

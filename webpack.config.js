@@ -6,7 +6,6 @@ const {
   happyVue,
   url,
   devServer,
-  html,
   env,
   plugin,
   when,
@@ -17,6 +16,8 @@ const {
   uglifyParallel,
 } = require('./index.js')
 
+const path = require('path')
+
 const config = createConfig([
   entry(),
   output(),
@@ -25,14 +26,14 @@ const config = createConfig([
   url('img'),
   url('media'),
   url('font'),
-  alias(),
+  alias({
+    '@': path.resolve('src')
+  }),
   extensions(['.vue', '.json']),
-  html(),
-  plugin('clean', 'dist'),
   env('develop', [devServer()]),
   env('production', [devtool('sourcemap'), uglifyParallel()])
 ])
 
-console.log('config', config)
+console.log('_____config all_____', config)
 
 module.exports = config

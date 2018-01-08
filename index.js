@@ -1,73 +1,39 @@
-// utils
 const pipe = require('./utils/pipe')
-const addLoader = require('./utils/addLoader')
-const addPlugin = require('./utils/addPlugin')
-
-const entry = require('./bricks/entry')
-const output = require('./bricks/output')
-
-const devServer = require('./bricks/devServer')
-const devtool = require('./bricks/devtool')
-
-// resolves
-const alias = require('./bricks/alias')
-const extensions = require('./bricks/extensions')
-
-// loaders
-const babel = require('./bricks/babel')
-const vue = require('./bricks/vue')
-const url = require('./bricks/url')
-
-// plugins
-const html = require('./bricks/html')
-const uglifyParallel = require('./bricks/uglify-parallel')
-
-//happys
-const happyBabel = require('./bricks/happy/babel')
-const happyVue = require('./bricks/happy/vue')
-
-// if
-const env = require('./bricks/env')
-const when = require('./bricks/when')
-
-// other
-const extend = require('./bricks/extend')
-
 // utils
 exports.createConfig = brickFns => {
   return pipe(...brickFns)({})
 }
-exports.addLoader = addLoader
-exports.addPlugin = addPlugin
+exports.addLoader = require('./utils/addLoader')
+exports.addPlugin = require('./utils/addPlugin')
 exports.merge = require('webpack-merge')
 
-exports.entry = entry
-exports.output = output
-exports.devtool = devtool
+exports.entry = require('./bricks/entry')
+exports.output = require('./bricks/output')
+exports.devtool = require('./bricks/devtool')
 
-exports.devServer = devServer
+exports.devServer = require('./bricks/devServer')
 
 // resolves
-exports.extensions = extensions
-exports.alias = alias
+exports.extensions = require('./bricks/extensions')
+exports.alias = require('./bricks/alias')
 
 //loaders
-exports.babel = babel
-exports.vue = vue
-exports.url = url
+exports.babel = require('./bricks/babel')
+exports.vue = require('./bricks/vue')
+exports.url = require('./bricks/url')
 exports.hbs = require('./bricks/hbs')
 
 // plugins
-exports.html = html
-exports.uglifyParallel = uglifyParallel
+exports.uglifyParallel = require('./bricks/uglify-parallel')
 
 // happys
-exports.happyBabel = happyBabel
-exports.happyVue = happyVue
+exports.happyBabel = require('./bricks/happy/babel')
+exports.happyVue = require('./bricks/happy/vue')
 
 // if
-exports.env = env
-exports.when = when
+exports.env = require('./bricks/env')
+exports.when = require('./bricks/when')
 
 // other
-exports.extend = extend
+exports.log = require('./bricks/log')
+exports.extend = require('./bricks/extend')

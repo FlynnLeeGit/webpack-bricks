@@ -11,7 +11,7 @@ const babelBrick = options => config => {
     }
   }
   const babelOptions = merge(defaultOptions, options)
-  return addLoader(config, babelOptions)
+  return addLoader(babelOptions)(config)
 }
 
 module.exports = babelBrick

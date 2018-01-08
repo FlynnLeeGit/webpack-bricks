@@ -8,7 +8,7 @@ const vueBrick = options => config => {
     loader: 'handlebars-loader'
   }
   const hbsRule = Object.assign({}, defaultOptions, options)
-  return addLoader(config, hbsRule)
+  return addLoader(hbsRule)(config)
 }
 
 module.exports = vueBrick

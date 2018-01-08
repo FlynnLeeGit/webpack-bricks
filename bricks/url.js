@@ -26,8 +26,7 @@ const urlBrick = (type, options) => config => {
   }
 
   const urlRule = Object.assign({}, defaultOptions, options)
-
-  return addLoader(config, urlRule)
+  return addLoader(urlRule)(config)
 }
 
 module.exports = urlBrick

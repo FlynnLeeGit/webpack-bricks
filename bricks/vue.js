@@ -8,7 +8,7 @@ const vueBrick = options => config => {
     loader: 'vue-loader'
   }
   const vueRule = Object.assign({}, defaultOptions, options)
-  return addLoader(config, vueRule)
+  return addLoader(vueRule)(config)
 }
 
 module.exports = vueBrick
