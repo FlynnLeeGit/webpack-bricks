@@ -2,9 +2,7 @@ const path = require('path')
 const merge = require('webpack-merge')
 
 const aliasBrick = options => config => {
-  const defaultOptions = {
-    '@': path.resolve('.', 'src')
-  }
+  const defaultOptions = {}
 
   const aliasOptions = merge(defaultOptions, options)
 

@@ -59,7 +59,6 @@ exports.url = url
 // plugins
 exports.html = html
 exports.uglifyParallel = uglifyParallel
-exports.plugin = require('./plugin')
 
 // happys
 exports.happyBabel = happyBabel
