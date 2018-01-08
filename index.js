@@ -5,6 +5,8 @@ exports.createConfig = brickFns => {
 }
 exports.addLoader = require('./utils/addLoader')
 exports.addPlugin = require('./utils/addPlugin')
+exports.addPlugins = require('./utils/addPlugins')
+
 exports.merge = require('webpack-merge')
 
 exports.entry = require('./bricks/entry')
