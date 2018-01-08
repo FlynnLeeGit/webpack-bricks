@@ -20,7 +20,7 @@ const {
   when,
   alias,
   extensions,
-  custom,
+  extend,
   devtool,
   uglifyParallel
 } = require('webpack-bricks')
@@ -35,7 +35,6 @@ const config = createConfig([
   url('font'),
   alias(),
   extensions(['.vue', '.json']),
-  html(),
   env('develop', [devServer()]),
   env('production', [devtool('sourcemap'), uglifyParallel()])
 ])
@@ -74,7 +73,7 @@ const babelBrick = options => config => {
     }
   }
   const babelOptions = merge(defaultOptions, options)
-  return addLoader(config, babelOptions)
+  return addLoader(babelOptions)(config)
 }
 module.exports = babelBrick
 
