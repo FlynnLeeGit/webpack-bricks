@@ -55,6 +55,7 @@ exports.alias = alias
 exports.babel = babel
 exports.vue = vue
 exports.url = url
+exports.hbs = require('./bricks/hbs')
 
 // plugins
 exports.html = html
