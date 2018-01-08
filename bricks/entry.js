@@ -1,7 +1,12 @@
 const entryBrick = options => config => {
-  config.entry = options || {
-    main: './src/main.js'
+  if (!options) {
+    config.entry = {
+      main: './src/main.js'
+    }
+  } else {
+    config.entry = options
   }
+
   return config
 }
 
