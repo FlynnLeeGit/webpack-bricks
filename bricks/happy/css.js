@@ -6,27 +6,23 @@ const threadPool = require('./thread-pool')
 const merge = require('webpack-merge')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-const happyLessBrick = (options = {}) => config => {
+const happyCssBrick = (options = {}) => config => {
   const defaultOptions = {
     extract: {
       filename: '[name].css?[contenthash:7]'
     },
     style: {},
-    css: {},
-    less: {}
+    css: {}
   }
-  const { extract, css, less, style } = merge(defaultOptions, options)
+  const { extract, css, style } = merge(defaultOptions, options)
 
   return extract
     ? pipe(
         addPlugin(
           new HappyPack({
-            id: 'less-link',
+            id: 'css-link',
             threadPool,
-            loaders: [
-              { loader: 'css-loader', options: css },
-              { loader: 'less-loader', options: less }
-            ]
+            loaders: [{ loader: 'css-loader', options: css }]
           })
         ),
         addPlugin(new ExtractTextPlugin(extract)),
@@ -34,7 +30,7 @@ const happyLessBrick = (options = {}) => config => {
           test: /\.less$/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
-            use: 'happypack/loader?id=less-link'
+            use: 'happypack/loader?id=css-link'
           })
         })
       )(config)
@@ -45,16 +41,15 @@ const happyLessBrick = (options = {}) => config => {
             threadPool,
             loaders: [
               { loader: 'style-loader', options: style },
-              { loader: 'css-loader', options: css },
-              { loader: 'less-loader', options: less }
+              { loader: 'css-loader', options: css }
             ]
           })
         ),
         addLoader({
           test: /\.less$/,
-          use: 'happypack/loader?id=less'
+          use: 'happypack/loader?id=css'
         })
       )(config)
 }
 
-module.exports = happyLessBrick
+module.exports = happyCssBrick

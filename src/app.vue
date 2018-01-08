@@ -1,6 +1,12 @@
 <template>
   <div>
+    HELLO
     <img :src="tag" alt="">
+    <div class="test">
+      <div class="test-2">
+        test2
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,8 +24,10 @@ export default {
 }
 </script>
 
-<style>
-body{
-  background: #000;
+<style lang='less'>
+.test{
+  .test-2{
+    color: green;
+  }
 }
 </style>

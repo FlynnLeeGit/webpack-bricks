@@ -4,6 +4,7 @@ const {
   output,
   happyBabel,
   happyVue,
+  happyLess,
   url,
   devServer,
   env,
@@ -14,7 +15,10 @@ const {
   custom,
   devtool,
   uglifyParallel,
+  addPlugin
 } = require('./index.js')
+
+const Html = require('html-webpack-plugin')
 
 const path = require('path')
 
@@ -29,9 +33,14 @@ const config = createConfig([
   alias({
     '@': path.resolve('src')
   }),
+  addPlugin(
+    new Html({
+      template: './index.html'
+    })
+  ),
   extensions(['.vue', '.json']),
-  env('develop', [devServer()]),
-  env('production', [devtool('sourcemap'), uglifyParallel()])
+  env('develop', [devServer(), happyLess({ extract: false })]),
+  env('production', [devtool('sourcemap'), uglifyParallel(), happyLess()])
 ])
 
 console.log('_____config all_____', config)

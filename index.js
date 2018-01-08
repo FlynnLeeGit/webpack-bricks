@@ -1,4 +1,6 @@
 const pipe = require('./utils/pipe')
+
+process.env.BRICKS_ENV = {}
 // utils
 exports.createConfig = brickFns => {
   return pipe(...brickFns)({})
@@ -31,6 +33,8 @@ exports.uglifyParallel = require('./bricks/uglify-parallel')
 // happys
 exports.happyBabel = require('./bricks/happy/babel')
 exports.happyVue = require('./bricks/happy/vue')
+exports.happyLess = require('./bricks/happy/less')
+exports.happyCss = require('./bricks/happy/css')
 
 // if
 exports.env = require('./bricks/env')
