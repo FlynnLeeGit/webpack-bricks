@@ -39,7 +39,7 @@ const happyCssBrick = (options = {}) => config => {
     : pipe(
         addPlugin(
           new HappyPack({
-            id: 'less',
+            id: 'css',
             threadPool,
             loaders: [
               { loader: 'style-loader', options: style },
@@ -48,7 +48,7 @@ const happyCssBrick = (options = {}) => config => {
           })
         ),
         addLoader({
-          test: /\.less$/,
+          test: /\.css$/,
           use: 'happypack/loader?id=css'
         })
       )(config)
