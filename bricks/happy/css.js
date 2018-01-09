@@ -29,7 +29,7 @@ const happyCssBrick = (options = {}) => config => {
         ),
         addPlugin(new ExtractTextPlugin(extract)),
         addLoader({
-          test: /\.less$/,
+          test: /\.css$/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: 'happypack/loader?id=css-link'
