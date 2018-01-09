@@ -1,10 +1,10 @@
-const addPlugin = require('../utils/addPlugin')
-const UglifyParallelPlugin = require('webpack-uglify-parallel')
 const merge = require('webpack-merge')
-
-// https://www.npmjs.com/package/webpack-uglify-parallel
+const addPlugin = require('../utils/addPlugin')
 
 const uglifyParallelBrick = options => config => {
+  // https://www.npmjs.com/package/webpack-uglify-parallel
+  const UglifyParallelPlugin = require('webpack-uglify-parallel')
+
   const defaultOptions = {
     workers: require('os').cpus().length,
     output: {

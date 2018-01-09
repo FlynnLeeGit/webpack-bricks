@@ -1,10 +1,12 @@
-const HappyPack = require('happypack')
 const pipe = require('../../utils/pipe')
 const addLoader = require('../../utils/addLoader')
 const addPlugin = require('../../utils/addPlugin')
-const threadPool = require('./thread-pool')
+
 
 const happyVueBrick = options => config => {
+  const HappyPack = require('happypack')
+  const threadPool = require('./thread-pool')
+
   return pipe(
     addPlugin(
       new HappyPack({

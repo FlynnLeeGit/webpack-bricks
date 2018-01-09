@@ -1,11 +1,11 @@
-const HappyPack = require('happypack')
 const pipe = require('../../utils/pipe')
 const addLoader = require('../../utils/addLoader')
 const addPlugin = require('../../utils/addPlugin')
-const threadPool = require('./thread-pool')
 
-const happyBabelBrick = options => config =>
-  pipe(
+const happyBabelBrick = options => config => {
+  const HappyPack = require('happypack')
+  const threadPool = require('./thread-pool')
+  return pipe(
     addPlugin(
       new HappyPack({
         id: 'babel',
@@ -19,5 +19,6 @@ const happyBabelBrick = options => config =>
       exclude: [/node_modules/]
     })
   )(config)
+}
 
 module.exports = happyBabelBrick

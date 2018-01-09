@@ -1,12 +1,14 @@
-const HappyPack = require('happypack')
 const pipe = require('../../utils/pipe')
 const addLoader = require('../../utils/addLoader')
 const addPlugin = require('../../utils/addPlugin')
-const threadPool = require('./thread-pool')
+
 const merge = require('webpack-merge')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const happyLessBrick = (options = {}) => config => {
+  const HappyPack = require('happypack')
+  const ExtractTextPlugin = require('extract-text-webpack-plugin')
+  const threadPool = require('./thread-pool')
+  
   const defaultOptions = {
     extract: {
       filename: '[name].css?[contenthash:7]'
