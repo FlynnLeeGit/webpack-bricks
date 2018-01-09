@@ -7,6 +7,8 @@ const happyVueBrick = options => config => {
   const HappyPack = require('happypack')
   const threadPool = require('./thread-pool')
 
+  require('vue-loader')
+  
   return pipe(
     addPlugin(
       new HappyPack({

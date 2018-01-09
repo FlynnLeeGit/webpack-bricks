@@ -9,6 +9,11 @@ const happyLessBrick = (options = {}) => config => {
   const ExtractTextPlugin = require('extract-text-webpack-plugin')
   const threadPool = require('./thread-pool')
   
+  require('less-loader')
+  require('less')
+  require('css-loader')
+  require('style-loader')
+
   const defaultOptions = {
     extract: {
       filename: '[name].css?[contenthash:7]'

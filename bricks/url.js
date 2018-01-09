@@ -3,6 +3,9 @@ const addLoader = require('../utils/addLoader')
 // https://www.npmjs.com/package/url-loader
 
 const urlBrick = (type, options) => config => {
+  require('url-loader')
+  require('file-loader')
+
   let defaultOptions = {
     loader: 'url-loader',
     options: {

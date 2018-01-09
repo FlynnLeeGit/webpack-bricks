@@ -5,6 +5,9 @@ const addPlugin = require('../../utils/addPlugin')
 const happyBabelBrick = options => config => {
   const HappyPack = require('happypack')
   const threadPool = require('./thread-pool')
+  
+  require('babel-loader')
+
   return pipe(
     addPlugin(
       new HappyPack({
