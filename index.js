@@ -6,6 +6,7 @@ exports.createConfig = brickFns => {
   return pipe(...brickFns)({})
 }
 exports.addLoader = require('./utils/addLoader')
+exports.addLoaders = require('./utils/addLoaders')
 exports.addPlugin = require('./utils/addPlugin')
 exports.addPlugins = require('./utils/addPlugins')
 
