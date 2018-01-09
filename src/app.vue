@@ -24,10 +24,7 @@ export default {
 }
 </script>
 
-<style lang='less'>
+<style>
 .test{
-  .test-2{
-    color: green;
-  }
 }
 </style>

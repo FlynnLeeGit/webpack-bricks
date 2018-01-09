@@ -4,7 +4,7 @@ const {
   output,
   happyBabel,
   happyVue,
-  happyLess,
+  happyCss,
   url,
   devServer,
   env,
@@ -38,9 +38,10 @@ const config = createConfig([
       template: './index.html'
     })
   ),
+  happyCss(),
   extensions(['.vue', '.json']),
-  env('develop', [devServer(), happyLess({ extract: false })]),
-  env('production', [devtool('sourcemap'), uglifyParallel(), happyLess()])
+  env('develop', [devServer()]),
+  env('production', [devtool('sourcemap'), uglifyParallel()])
 ])
 
 console.log('_____config all_____', config)

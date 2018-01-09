@@ -9,7 +9,6 @@ const happyCssBrick = (options = {}) => config => {
   const threadPool = require('./thread-pool')
   const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-  require('less-loader')
   require('css-loader')
   require('style-loader')
   

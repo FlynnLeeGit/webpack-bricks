@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import App from '@/app'
-import './common.less'
+import './common.css'
 
 new Vue({
   el: '#app',
