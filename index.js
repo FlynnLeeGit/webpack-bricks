@@ -4,11 +4,10 @@ process.env.BRICKS_ENV = {}
 // utils
 exports.createConfig = brickFns => {
   try{
-    const config = pipe(...brickFns)({})
+    return pipe(...brickFns)({})
   } catch(err){
     console.log('[webpack-bricks -> [createConfig] -> brick error]',err)
   }
-  return config
 }
 exports.addLoader = require('./utils/addLoader')
 exports.addLoaders = require('./utils/addLoaders')
