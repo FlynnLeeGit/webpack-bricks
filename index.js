@@ -27,6 +27,7 @@ exports.babel = require('./bricks/babel')
 exports.vue = require('./bricks/vue')
 exports.url = require('./bricks/url')
 exports.hbs = require('./bricks/hbs')
+exports.art = require('./bricks/art')
 
 // plugins
 exports.uglifyParallel = require('./bricks/uglify-parallel')
