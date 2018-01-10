@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --progress --inline --hot",
+    "pub": "npm version patch && npm publish && git push",
     "build": "NODE_ENV=production webpack --progress --colors --hide-modules"
   },
   "devDependencies": {
