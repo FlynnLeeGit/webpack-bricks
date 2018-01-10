@@ -6,7 +6,7 @@ exports.createConfig = brickFns => {
   try{
     const config = pipe(...brickFns)({})
   } catch(err){
-    throw new Error(err)
+    console.log('[webpack-bricks error]',err)
   }
   return config
 }
