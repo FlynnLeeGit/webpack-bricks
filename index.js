@@ -3,7 +3,12 @@ const pipe = require('./utils/pipe')
 process.env.BRICKS_ENV = {}
 // utils
 exports.createConfig = brickFns => {
-  return pipe(...brickFns)({})
+  try{
+    const config = pipe(...brickFns)({})
+  } catch(err){
+    throw new Error(err)
+  }
+  return config
 }
 exports.addLoader = require('./utils/addLoader')
 exports.addLoaders = require('./utils/addLoaders')
