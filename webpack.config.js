@@ -1,39 +1,18 @@
-const {
-  createConfig,
-  addSamePlugin,
-  addPlugin,
-  bricks: {
-    entry,
-    output,
-    happyBabel,
-    happyVue,
-    happyCss,
-    env,
-    extend,
-    extensions,
-    image,
-    media,
-    font,
-    alias,
-    devServer,
-    devtool,
-    uglify
-  }
-} = require('./index.js')
+const { createConfig, addSamePlugin, addPlugin, bricks } = require('./index.js')
 
 const Html = require('html-webpack-plugin')
 
 const path = require('path')
 
 const config = createConfig([
-  entry(),
-  output({}),
-  happyBabel(),
-  happyVue(),
-  image(),
-  media(),
-  font(),
-  alias({
+  bricks.entry(),
+  bricks.output({}),
+  bricks.happyBabel(),
+  bricks.happyVue(),
+  bricks.image(),
+  bricks.media(),
+  bricks.font(),
+  bricks.alias({
     '@': path.resolve('src')
   }),
   addSamePlugin(
@@ -59,10 +38,10 @@ const config = createConfig([
       template: './index.html'
     }
   ),
-  happyCss(),
-  extensions(['.vue', '.json']),
-  env('develop', [devServer()]),
-  env('production', [devtool('sourcemap', uglify())])
+  bricks.happyCss(),
+  bricks.extensions(['.vue', '.json']),
+  bricks.env('develop', [bricks.devServer()]),
+  bricks.env('production', [bricks.devtool('sourcemap', bricks.uglify())])
 ])
 
 console.log('_____config all_____', config)

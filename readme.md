@@ -78,6 +78,21 @@ module.exports = config
 // that's it!
 ```
 
+## simplest brick
+
+```js
+module.exports = options => config => {
+  //[options] your brick options
+  //[config] webpackConfig
+
+  config.entry = {
+    main:'./src/main.js'
+  }
+  // must return !!
+  return config
+}
+```
+
 ## add loader or loaders use addLoader()
 
 ```js
@@ -185,8 +200,9 @@ const Copy = require('copy-webpack-plugin')
 ```
 
 #### cusotm bricks addLoader && addPlugin
+
 ```js
-const {pipe,addLoader,addPlugin} = require('webpack-bricks')
+const { pipe, addLoader, addPlugin } = require('webpack-bricks')
 
 const happyBabelBrick = options => config => {
   const HappyPack = require('happypack')
@@ -221,12 +237,7 @@ const happyBabelBrick = options => config => {
 }
 
 module.exports = happyBabelBrick
-
-
 ```
-
-
-
 
 ## extend webpack use extend()
 
