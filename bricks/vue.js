@@ -4,10 +4,11 @@ const addLoader = require('../utils/addLoader')
 
 const vueBrick = options => config => {
   require('vue-loader')
-  
+
   const defaultOptions = {
-    test: /\.vue/,
-    loader: 'vue-loader'
+    test: /\.vue$/,
+    loader: 'vue-loader',
+    option: {}
   }
   const vueRule = Object.assign({}, defaultOptions, options)
   return addLoader(vueRule)(config)

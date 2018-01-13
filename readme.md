@@ -6,61 +6,111 @@ this project is under develop,api maybe change
 
 define webpack.config.js like this
 all defined bricks can see in https://github.com/FlynnLeeGit/webpack-bricks/tree/master/bricks
+
 ```js
 const {
   createConfig,
-  entry,
-  output,
-  happyBabel,
-  happyVue,
-  url,
-  devServer,
-  html,
-  env,
-  when,
-  alias,
-  extensions,
-  extend,
-  devtool,
-  uglifyParallel
-} = require('webpack-bricks')
+  addSamePlugin,
+  addPlugin,
+  bricks: {
+    entry,
+    output,
+    happyBabel,
+    happyVue,
+    happyCss,
+    env,
+    extend,
+    extensions,
+    image,
+    media,
+    font,
+    alias,
+    devServer,
+    devtool,
+    uglify
+  }
+} = require('./index.js')
+
+const Html = require('html-webpack-plugin')
 
 const config = createConfig([
   entry(),
-  output(),
+  output({}),
   happyBabel(),
   happyVue(),
-  url('img'),
-  url('media'),
-  url('font'),
-  alias(),
+  image(),
+  media(),
+  font(),
+  alias({
+    '@': path.resolve('src')
+  }),
+  addSamePlugin(
+    Html,
+    [
+      {
+        filename: '1.html'
+      },
+      {
+        filename: '2.html'
+      },
+      {
+        filename: '3.html'
+      },
+      {
+        filename: '4.html'
+      },
+      {
+        filename: '5.html'
+      }
+    ],
+    {
+      template: './index.html'
+    }
+  ),
+  happyCss(),
   extensions(['.vue', '.json']),
   env('develop', [devServer()]),
-  env('production', [devtool('sourcemap'), uglifyParallel()])
+  env('production', [devtool('sourcemap', uglify())])
 ])
+
+module.exports = config
+
 // that's it!
 ```
 
-## extend webpack use extend()
+## add loader or loaders use addLoader()
 
 ```js
-  {
-    ...
-    extend({
-      externals:{
-        jquery: 'jQuery'
-      }
-    })
-  }
-  // will merge config
+// let's add babel-loader && vue-loader
+const { createConfig } = require('webpack-bricks')
+moudle.exports = createConfig([
+  ...
+  addLoader(
+    // for babel
+    {
+      test: /\.js$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/,
+      options: {
+        cacheDirectory: true
+      },
+    }
+    // for vue
+    {
+      test:/\.vue$/,
+      loader: 'vue-loader'
+    }
+  })
+  ...
+])
 ```
 
-## custom brick
+## or even better to use custom babel brick
 
 let's make a babelBrick
 
 ```js
-// babel-brick.js 
+// babel-brick.js
 const { addLoader, merge } = require('webpack-bricks')
 
 const babelBrick = options => config => {
@@ -78,18 +128,20 @@ const babelBrick = options => config => {
 module.exports = babelBrick
 
 // use in webpack.config.js
+const {createConfig} = require('webpack-bricks')
 const babel = require('./babel-brick')
-module.exports = {
-  ...babel({
-    test: /\.jsx?$/,
+module.exports = createConfig([
+  ...
+  babel({
     options: {
       presets: [['env']]
     }
   })
-}
+  ...
+])
 /*
   will be {
-    test:/\.jsx?$/,
+    test:/\.js$/,
     loader:'babel-loader',
     exclude: /node_modules/,
     options:{
@@ -98,4 +150,95 @@ module.exports = {
     }
   }
 */
+```
+
+#### Plugins
+
+```js
+const {addPlugin,addSamePlugin} = require('webpack-bricks')
+const Html = require('html-webpack-plugin')
+const Copy = require('copy-webpack-plugin')
+[
+  ...
+  addPlugin(
+    // on or more plugins
+    new Html({
+      filename:'1.html'
+    }),
+    new Copy({
+      from:'./src/static/**.png'
+    })
+  ),
+  // same plugin used one more times
+  addSamePlugin(Html,[
+    {filename: '1.html'},
+    {filename: '2.html'}
+  ],{
+    template:'./template.tpl'
+  }) // this will be
+  // [new Html(
+  //   { filename:'1.html', template:'./tempalte.tpl'},
+  //   { filename:'2.html', template:'./tempalte.tpl'},
+  // )]
+  ...
+]
+```
+
+#### cusotm bricks addLoader && addPlugin
+```js
+const {pipe,addLoader,addPlugin} = require('webpack-bricks')
+
+const happyBabelBrick = options => config => {
+  const HappyPack = require('happypack')
+  const threadPool = require('./thread-pool')
+  const merge = require('webpack-merge')
+
+  require('babel-loader')
+  const defaultOptions = {
+    cacheDirectory: true
+  }
+  const babelOptions = merge(defaultOptions, options)
+
+  return pipe(
+    addPlugin(
+      new HappyPack({
+        id: 'babel',
+        threadPool,
+        loaders: [
+          {
+            loader: 'babel-loader',
+            options: babelOptions
+          }
+        ]
+      })
+    ),
+    addLoader({
+      test: /\.js$/,
+      use: 'happypack/loader?id=babel',
+      exclude: [/node_modules/]
+    })
+  )(config)
+}
+
+module.exports = happyBabelBrick
+
+
+```
+
+
+
+
+## extend webpack use extend()
+
+```js
+  const { bricks: {extend} } = require('webpack-bricks')
+  [
+    ...
+    extend({
+      externals:{
+        jquery: 'jQuery'
+      }
+    })
+  ]
+  // will merge config
 ```

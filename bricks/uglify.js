@@ -3,10 +3,9 @@ const addPlugin = require('../utils/addPlugin')
 
 const uglifyParallelBrick = options => config => {
   // https://www.npmjs.com/package/webpack-uglify-parallel
-  const UglifyParallelPlugin = require('webpack-uglify-parallel')
+  const Uglify = require('webpack').optimize.UglifyJsPlugin
 
   const defaultOptions = {
-    workers: require('os').cpus().length,
     output: {
       beautify: false
       // comments: false
@@ -20,10 +19,11 @@ const uglifyParallelBrick = options => config => {
       collapse_vars: true,
       // 提取出出现多次但是没有定义成变量去引用的静态值
       reduce_vars: true
-    }
+    },
+    parallel: true
   }
   const uglifyOptions = merge(defaultOptions, options)
-  return addPlugin(new UglifyParallelPlugin(uglifyOptions))(config)
+  return addPlugin(new Uglify(uglifyOptions))(config)
 }
 
 module.exports = uglifyParallelBrick

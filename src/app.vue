@@ -14,7 +14,10 @@
 import test1 from './assets/test.png'
 import font from './assets/test.ttf'
 import tag from './assets/tag-gong.png'
-console.log(tag)
+import forEach from 'lodash/forEach'
+forEach({a:1,b:2},(item)=>{
+  console.log(item)
+})
 export default {
   data(){
     return {

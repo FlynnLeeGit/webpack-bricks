@@ -14,7 +14,7 @@ const happyCssBrick = (options = {}) => config => {
   
   const defaultOptions = {
     extract: {
-      filename: '[name].css?[contenthash:7]'
+      filename: 'static/css/[name].css?[contenthash:7]'
     },
     style: {},
     css: {}

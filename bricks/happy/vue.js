@@ -2,19 +2,26 @@ const pipe = require('../../utils/pipe')
 const addLoader = require('../../utils/addLoader')
 const addPlugin = require('../../utils/addPlugin')
 
-
 const happyVueBrick = options => config => {
   const HappyPack = require('happypack')
   const threadPool = require('./thread-pool')
+  const merge = require('webpack-merge')
 
+  const defaultOptions = {}
+  const vueOptions = merge(defaultOptions, options)
   require('vue-loader')
-  
+
   return pipe(
     addPlugin(
       new HappyPack({
         id: 'vue',
         threadPool,
-        loaders: ['vue-loader']
+        loaders: [
+          {
+            loader: 'vue-loader',
+            options: vueOptions
+          }
+        ]
       })
     ),
     addLoader({

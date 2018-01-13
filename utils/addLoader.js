@@ -1,9 +1,9 @@
 const merge = require('webpack-merge')
 
-module.exports = rule => config => {
+module.exports = (...rules) => config => {
   return merge(config, {
     module: {
-      rules: [rule]
+      rules: [...rules]
     }
   })
 }

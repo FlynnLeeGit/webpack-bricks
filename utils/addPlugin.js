@@ -1,7 +1,7 @@
 const merge = require('webpack-merge')
 
-module.exports = arg => config => {
+module.exports = (...args) => config => {
   return merge(config, {
-    plugins: [arg]
+    plugins: [...args]
   })
 }
