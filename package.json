@@ -3,10 +3,10 @@
   "version": "0.1.28",
   "main": "index.js",
   "scripts": {
-    "dev:webpack": "rm -rf dist && webpack-dev-server --inline --hot",
+    "dev:webpack": "cd examples && rm -rf dist && webpack -w --progress",
     "dev": "nodemon -w webpack.config.js --exec \"npm run dev:webpack\"",
     "pub": "npm version patch && npm publish && git push",
-    "build": "NODE_ENV=production webpack --progress --colors --hide-modules"
+    "build": "NODE_ENV=production cd examples && webpack --progress --colors --hide-modules"
   },
   "devDependencies": {
     "autodll-webpack-plugin": "^0.3.8",

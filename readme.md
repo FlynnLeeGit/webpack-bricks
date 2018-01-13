@@ -4,8 +4,8 @@
 
 this project is under develop,api maybe change
 
-define webpack.config.js like this
-all defined bricks can see in https://github.com/FlynnLeeGit/webpack-bricks/tree/master/bricks
+define webpack.config.js like this,
+now all defined bricks can see in https://github.com/FlynnLeeGit/webpack-bricks/tree/master/bricks
 
 ```js
 const {
@@ -75,12 +75,14 @@ const config = createConfig([
 
 module.exports = config
 
+
 // that's it!
 ```
 
-## simplest brick
+## custom bricks
 
 ```js
+// simplest brick 
 module.exports = options => config => {
   //[options] your brick options
   //[config] webpackConfig

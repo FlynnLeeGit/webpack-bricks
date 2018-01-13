@@ -1,4 +1,4 @@
-const { createConfig, addSamePlugin, addPlugin, bricks } = require('./index.js')
+const { createConfig, addSamePlugin, addPlugin, bricks } = require('../index.js')
 
 const Html = require('html-webpack-plugin')
 
