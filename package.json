@@ -1,6 +1,6 @@
 {
   "name": "webpack-bricks",
-  "version": "0.1.26",
+  "version": "0.1.27",
   "main": "index.js",
   "scripts": {
     "dev:webpack": "rm -rf dist && webpack-dev-server --inline --hot",
