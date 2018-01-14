@@ -6,8 +6,12 @@ const depInstaller  = require('../../utils/depInstaller')
 const happyVueBrick = options => config => {
   depInstaller(
     'happypack',
-    'vue-loader'
-  ) 
+    'vue-loader',
+    'vue-template-compiler',
+    'css-loader',
+    'style-loader'
+  )
+
   const HappyPack = require('happypack')
   const threadPool = require('./thread-pool')
   const merge = require('webpack-merge')
