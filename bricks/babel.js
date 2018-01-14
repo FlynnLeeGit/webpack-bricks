@@ -1,8 +1,9 @@
 const addLoader = require('../utils/addLoader')
 const merge = require('webpack-merge')
+const depInstaller = require('../utils/depInstaller')
 
 const babelBrick = options => config => {
-  require('babel-loader')
+  depInstaller('babel-loader')
   
   const defaultOptions = {
     test: /\.js$/,

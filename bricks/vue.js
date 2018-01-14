@@ -1,9 +1,10 @@
 const addLoader = require('../utils/addLoader')
+const depInstaller = require('../utils/depInstaller')
 
 // https://www.npmjs.com/package/vue-loader
 
 const vueBrick = options => config => {
-  require('vue-loader')
+  depInstaller('vue-loader')
 
   const defaultOptions = {
     test: /\.vue$/,

@@ -1,13 +1,15 @@
 const pipe = require('../../utils/pipe')
 const addLoader = require('../../utils/addLoader')
 const addPlugin = require('../../utils/addPlugin')
+const depInstaller = require('../../utils/depInstaller')
 
 const happyBabelBrick = options => config => {
+  depInstaller('happypack', 'babel-loader', 'babel-core')
+
   const HappyPack = require('happypack')
   const threadPool = require('./thread-pool')
   const merge = require('webpack-merge')
 
-  require('babel-loader')
   const defaultOptions = {
     cacheDirectory: true
   }

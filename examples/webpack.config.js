@@ -1,17 +1,17 @@
-const { createConfig, addSamePlugin, addPlugin, bricks } = require('../index.js')
-
-const Html = require('html-webpack-plugin')
+const {
+  createConfig,
+  addSamePlugin,
+  addPlugin,
+  bricks
+} = require('../index.js')
 
 const path = require('path')
+const Html = require('html-webpack-plugin')
 
 const config = createConfig([
   bricks.entry(),
-  bricks.output({}),
+  bricks.output(),
   bricks.happyBabel(),
-  bricks.happyVue(),
-  bricks.image(),
-  bricks.media(),
-  bricks.font(),
   bricks.alias({
     '@': path.resolve('src')
   }),

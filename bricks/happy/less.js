@@ -1,14 +1,22 @@
 const pipe = require('../../utils/pipe')
 const addLoader = require('../../utils/addLoader')
 const addPlugin = require('../../utils/addPlugin')
+const depInstaller  = require('../../utils/depInstaller')
 
 const merge = require('webpack-merge')
 
 const happyLessBrick = (options = {}) => config => {
+  depInstaller(
+    'happypack',
+    'extract-text-webpack-plugin',
+    'css-loader',
+    'style-loader',
+    'less-loader'
+  )
   const HappyPack = require('happypack')
   const ExtractTextPlugin = require('extract-text-webpack-plugin')
   const threadPool = require('./thread-pool')
-  
+
   require('less-loader')
   require('less')
   require('css-loader')

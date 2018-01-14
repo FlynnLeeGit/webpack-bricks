@@ -1,10 +1,10 @@
 const addLoader = require('../utils/addLoader')
 const merge = require('webpack-merge')
+const depInstaller = require('../utils/depInstaller')
 
 // https://www.npmjs.com/package/url-loader
 const mediaBrick = (type, options) => config => {
-  require('url-loader')
-  require('file-loader')
+  depInstaller('url-loader', 'file-loader')
 
   const defaultOptions = {
     test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,

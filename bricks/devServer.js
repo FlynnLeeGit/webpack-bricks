@@ -1,10 +1,10 @@
 const merge = require('webpack-merge')
-
+const depInstaller = require('../utils/depInstaller')
 // https://www.npmjs.com/package/webpack-dev-server
 
 const devServerBrick = options => config => {
-  require('webpack-dev-server')
-
+  depInstaller('webpack-dev-server')
+  
   const defaultOptions = {
     clientLogLevel: 'warning',
     // gzip

@@ -1,9 +1,9 @@
 const addLoader = require('../utils/addLoader')
+const depInstaller = require('../utils/depInstaller')
 
 module.exports = (options = {}) => config => {
-  require('art-template')
-  require('art-template-loader')
-  
+  depInstaller('art-template', 'art-template-loader')
+
   return addLoader({
     test: /\.art$/,
     loader: 'art-template-loader',

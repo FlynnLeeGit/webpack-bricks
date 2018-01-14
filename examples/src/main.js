@@ -1,9 +1,9 @@
 import Vue from 'vue'
 
-import App from '@/app'
-import './common.css'
+// import App from '@/app'
+// import './common.css'
 
-new Vue({
-  el: '#app',
-  render: h => h(App)
-})
+// new Vue({
+//   el: '#app',
+//   render: h => h(App)
+// })

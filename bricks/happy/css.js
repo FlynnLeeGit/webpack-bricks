@@ -1,17 +1,22 @@
 const pipe = require('../../utils/pipe')
 const addLoader = require('../../utils/addLoader')
 const addPlugin = require('../../utils/addPlugin')
+const depInstaller = require('../../utils/depInstaller')
 
 const merge = require('webpack-merge')
 
 const happyCssBrick = (options = {}) => config => {
+  depInstaller(
+    'happypack',
+    'extract-text-webpack-plugin',
+    'css-loader',
+    'style-loader'
+  ) 
+
   const HappyPack = require('happypack')
   const threadPool = require('./thread-pool')
   const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-  require('css-loader')
-  require('style-loader')
-  
   const defaultOptions = {
     extract: {
       filename: 'static/css/[name].css?[contenthash:7]'

@@ -1,10 +1,9 @@
 const addLoader = require('../utils/addLoader')
 const merge = require('webpack-merge')
-
+const depInstaller = require('../utils/depInstaller')
 // https://www.npmjs.com/package/url-loader
 const fontBrick = (type, options) => config => {
-  require('url-loader')
-  require('file-loader')
+  depInstaller('url-loader', 'file-loader')
 
   const defaultOptions = {
     test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,

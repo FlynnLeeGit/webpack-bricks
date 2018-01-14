@@ -1,10 +1,10 @@
 const addLoader = require('../utils/addLoader')
+const depInstaller = require('../utils/depInstaller')
 
 // https://www.npmjs.com/package/vue-loader
 
 const vueBrick = options => config => {
-  require('handlebars-loader')
-  require('handlebars')
+  depInstaller('handlebars-loader', 'handlerbars')
 
   const defaultOptions = {
     test: /\.hbs/,
