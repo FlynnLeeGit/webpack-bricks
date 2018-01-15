@@ -39,6 +39,7 @@ const config = createConfig([
     }
   ),
   bricks.happyCss(),
+  bricks.happyLess(),
   bricks.extensions(['.vue', '.json']),
   bricks.env('develop', [bricks.devServer()]),
   bricks.env('production', [bricks.devtool('sourcemap', bricks.uglify())])
