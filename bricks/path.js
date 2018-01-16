@@ -1,4 +1,6 @@
 const _ = require('lodash')
+const alias = require('./alias')
+
 /**
  * easy wrapper for alias module
  * @param {* object } options  
