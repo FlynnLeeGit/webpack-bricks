@@ -8,6 +8,7 @@ module.exports = {
   // resolves
   extensions: require('./extensions'),
   alias: require('./alias'),
+  path: require('./path'),
 
   //loaders
   babel: require('./babel'),
@@ -17,6 +18,8 @@ module.exports = {
   media: require('./media'),
   hbs: require('./hbs'),
   art: require('./art'),
+  shim: require('./shim'),
+  expose: require('./expose'),
 
   // plugins
   uglify: require('./uglify'),
