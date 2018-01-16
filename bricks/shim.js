@@ -32,6 +32,8 @@ const _ = require('lodash')
  **/
 
 const shimBrick = (shims = [], alias = {}) => config => {
+  depInstaller('imports-loader')
+
   const shimLoaders = _.map(shims, shim => {
     const loader = {
       test: require.resolve(alias[shim] ? alias[shim] : shim),
@@ -42,3 +44,5 @@ const shimBrick = (shims = [], alias = {}) => config => {
   })
   return addLoader(...shimLoaders)(config)
 }
+
+module.exports = shimBrick
