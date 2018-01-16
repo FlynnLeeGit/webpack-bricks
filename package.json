@@ -1,6 +1,6 @@
 {
   "name": "webpack-bricks",
-  "version": "0.1.40",
+  "version": "0.1.41",
   "main": "index.js",
   "scripts": {
     "dev:webpack": "cd examples && rm -rf dist && webpack -w --progress",
