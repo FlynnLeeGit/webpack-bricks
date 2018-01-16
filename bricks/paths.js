@@ -16,8 +16,8 @@ const alias = require('./alias')
     import 'jquery-datetimepicker'
     import 'jquery-datetimepicker.style'
  */
-const pathBrick = (options = {}) => config => {
+const pathsBrick = (options = {}) => config => {
   return alias(_.mapKeys(options, (v, k) => k + '$'))(config)
 }
 
-module.exports = pathBrick
+module.exports = pathsBrick
