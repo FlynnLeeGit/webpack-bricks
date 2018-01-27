@@ -15,9 +15,9 @@ const {
   bricks: {
     entry,
     output,
-    happyBabel,
-    happyVue,
-    happyCss,
+    babel,
+    vue,
+    css,
     env,
     extend,
     extensions,
@@ -36,8 +36,8 @@ const Html = require('html-webpack-plugin')
 const config = createConfig([
   entry(),
   output({}),
-  happyBabel(),
-  happyVue(),
+  babel(),
+  vue(),
   image(),
   media(),
   font(),
@@ -67,7 +67,7 @@ const config = createConfig([
       template: './index.html'
     }
   ),
-  happyCss(),
+  css(),
   extensions(['.vue', '.json']),
   env('develop', [devServer()]),
   env('production', [devtool('sourcemap', uglify())])
@@ -75,20 +75,19 @@ const config = createConfig([
 
 module.exports = config
 
-
 // that's it!
 ```
 
 ## custom bricks
 
 ```js
-// simplest brick 
+// simplest brick
 module.exports = options => config => {
   //[options] your brick options
   //[config] webpackConfig
 
   config.entry = {
-    main:'./src/main.js'
+    main: './src/main.js'
   }
   // must return !!
   return config
@@ -130,16 +129,16 @@ let's make a babelBrick
 // babel-brick.js
 const { addLoader, merge } = require('webpack-bricks')
 
-const babelBrick = options => config => {
+const babelBrick = (options={}) => config => {
   const defaultOptions = {
+    cacheDirectory: true
+  }
+  const babelOptions = {
     test: /\.js$/,
     loader: 'babel-loader',
     exclude: /node_modules/,
-    options: {
-      cacheDirectory: true
-    }
+    options: merge(defaultOptions,options)
   }
-  const babelOptions = merge(defaultOptions, options)
   return addLoader(babelOptions)(config)
 }
 module.exports = babelBrick
@@ -150,9 +149,7 @@ const babel = require('./babel-brick')
 module.exports = createConfig([
   ...
   babel({
-    options: {
-      presets: [['env']]
-    }
+    presets: [['env']]
   })
   ...
 ])
@@ -167,38 +164,6 @@ module.exports = createConfig([
     }
   }
 */
-```
-
-#### Plugins
-
-```js
-const {addPlugin,addSamePlugin} = require('webpack-bricks')
-const Html = require('html-webpack-plugin')
-const Copy = require('copy-webpack-plugin')
-[
-  ...
-  addPlugin(
-    // on or more plugins
-    new Html({
-      filename:'1.html'
-    }),
-    new Copy({
-      from:'./src/static/**.png'
-    })
-  ),
-  // same plugin used one more times
-  addSamePlugin(Html,[
-    {filename: '1.html'},
-    {filename: '2.html'}
-  ],{
-    template:'./template.tpl'
-  }) // this will be
-  // [new Html(
-  //   { filename:'1.html', template:'./tempalte.tpl'},
-  //   { filename:'2.html', template:'./tempalte.tpl'},
-  // )]
-  ...
-]
 ```
 
 #### cusotm bricks addLoader && addPlugin
