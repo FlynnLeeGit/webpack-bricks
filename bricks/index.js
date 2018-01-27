@@ -11,25 +11,21 @@ module.exports = {
   paths: require('./paths'),
 
   //loaders
-  babel: require('./babel'),
-  vue: require('./vue'),
   image: require('./image'),
   font: require('./font'),
   media: require('./media'),
   hbs: require('./hbs'),
   art: require('./art'),
-  shim: require('./shim'),
-  expose: require('./expose'),
   twig: require('./twig'),
 
   // plugins
   uglify: require('./uglify'),
 
   // happys
-  happyBabel: require('./happy/babel'),
-  happyVue: require('./happy/vue'),
-  happyLess: require('./happy/less'),
-  happyCss: require('./happy/css'),
+  babel: require('./happy/babel'),
+  vue: require('./happy/vue'),
+  less: require('./happy/less'),
+  css: require('./happy/css'),
 
   // if
   env: require('./env'),

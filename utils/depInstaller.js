@@ -11,6 +11,7 @@ const exectuers = {
 
 const depIntaller = (...deps) => {
   const depNotInstalled = []
+
   deps.forEach(dep => {
     try {
       require.resolve(dep)
@@ -32,6 +33,7 @@ const depIntaller = (...deps) => {
       `[ ${depNotInstalled.toString()} ] installing by using [ ${client} ]...`
     )
     exectuers[client](depNotInstalled)
+    log(`dep installed you can now restart`)
   }
 }
 

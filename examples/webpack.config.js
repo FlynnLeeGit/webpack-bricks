@@ -11,7 +11,7 @@ const Html = require('html-webpack-plugin')
 const config = createConfig([
   bricks.entry(),
   bricks.output(),
-  bricks.happyBabel(),
+  bricks.babel(),
   bricks.alias({
     '@': path.resolve('src')
   }),
@@ -38,8 +38,8 @@ const config = createConfig([
       template: './index.html'
     }
   ),
-  bricks.happyCss(),
-  bricks.happyLess(),
+  bricks.css(),
+  bricks.less(),
   bricks.extensions(['.vue', '.json']),
   bricks.env('develop', [bricks.devServer()]),
   bricks.env('production', [bricks.devtool('sourcemap', bricks.uglify())])
