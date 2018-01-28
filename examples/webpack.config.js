@@ -15,6 +15,10 @@ const config = createConfig([
   bricks.alias({
     '@': path.resolve('src')
   }),
+  bricks.media(),
+  bricks.font(),
+  bricks.image(),
+  // bricks.vue(),
   addSamePlugin(
     Html,
     [

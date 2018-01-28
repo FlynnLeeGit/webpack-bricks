@@ -1,4 +1,4 @@
-const pipe = require('../utils/pipe')
+const pipe = require('../../utils/pipe')
 
 const NODE_ENV = process.env.NODE_ENV || 'develop'
 

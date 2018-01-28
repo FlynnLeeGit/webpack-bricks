@@ -1,16 +1,16 @@
-const addLoader = require('../utils/addLoader')
-const depInstaller = require('../utils/depInstaller')
 const merge = require('webpack-merge')
+
+const addLoader = require('../../utils/addLoader')
+const depInstaller = require('../../utils/depInstaller')
 
 const twigBrick = (options = {}) => config => {
   depInstaller('twig-loader')
 
-  const defaultOptions = {
+  const twigOptions = {
     test: /\.twig$/,
     loader: 'twig-loader',
-    options: {}
+    options
   }
-  const twigOptions = merge(defaultOptions, options)
   return addLoader(twigOptions)(config)
 }
 

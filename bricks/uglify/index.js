@@ -1,5 +1,5 @@
 const merge = require('webpack-merge')
-const addPlugin = require('../utils/addPlugin')
+const addPlugin = require('../../utils/addPlugin')
 
 const uglifyParallelBrick = options => config => {
   // https://www.npmjs.com/package/webpack-uglify-parallel

@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const alias = require('./alias')
+const alias = require('./index')
 
 /**
  * easy wrapper for alias module
@@ -16,8 +16,8 @@ const alias = require('./alias')
     import 'jquery-datetimepicker'
     import 'jquery-datetimepicker.style'
  */
-const pathsBrick = (options = {}) => config => {
+const tailAliasBrick = (options = {}) => config => {
   return alias(_.mapKeys(options, (v, k) => k + '$'))(config)
 }
 
-module.exports = pathsBrick
+module.exports = tailAliasBrick

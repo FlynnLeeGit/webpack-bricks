@@ -1,4 +1,4 @@
-const pipe = require('../utils/pipe')
+const pipe = require('../../utils/pipe')
 
 /**
  * when condition is true  to excute bricks

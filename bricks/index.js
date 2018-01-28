@@ -1,36 +1,33 @@
-module.exports = {
-  entry: require('./entry'),
-  output: require('./output'),
-  devtool: require('./devtool'),
+exports.entry = require('./entry')
+exports.output = require('./output')
+exports.devtool = require('./devtool')
 
-  devServer: require('./devServer'),
+exports.devServer = require('./devServer')
 
-  // resolves
-  extensions: require('./extensions'),
-  alias: require('./alias'),
-  paths: require('./paths'),
+// resolves
+exports.extensions = require('./extensions')
+exports.alias = require('./alias')
+exports.tailAlias = require('./alias/tail')
 
-  //loaders
-  image: require('./image'),
-  font: require('./font'),
-  media: require('./media'),
-  hbs: require('./hbs'),
-  art: require('./art'),
-  twig: require('./twig'),
+//loaders
+exports.image = require('./image')
+exports.font = require('./font')
+exports.media = require('./media')
+exports.hbs = require('./hbs')
+exports.twig = require('./twig')
 
-  // plugins
-  uglify: require('./uglify'),
+// plugins
+exports.uglify = require('./uglify')
 
-  // happys
-  babel: require('./happy/babel'),
-  vue: require('./happy/vue'),
-  less: require('./happy/less'),
-  css: require('./happy/css'),
+// happy-bricks
+exports.babel = require('./happy-bricks/babel')
+exports.vue = require('./happy-bricks/vue')
+exports.less = require('./happy-bricks/less')
+exports.css = require('./happy-bricks/css')
 
-  // if
-  env: require('./env'),
-  when: require('./when'),
+// if
+exports.env = require('./env')
+exports.when = require('./when')
 
-  // other
-  extend: require('./extend')
-}
+// other
+exports.extend = require('./extend')

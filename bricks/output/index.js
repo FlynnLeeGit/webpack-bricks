@@ -3,7 +3,7 @@ const path = require('path')
 const outputBrick = options => config => {
   const defaultOptions = {
     path: path.resolve('dist'),
-    filename: 'js/[name].js',
+    filename: 'static/js/[name].js',
     publicPath: '/'
   }
   config.output = Object.assign({}, defaultOptions, options)

@@ -1,5 +1,5 @@
 const merge = require('webpack-merge')
-const depInstaller = require('../utils/depInstaller')
+const depInstaller = require('../../utils/depInstaller')
 // https://www.npmjs.com/package/webpack-dev-server
 
 const devServerBrick = options => config => {
