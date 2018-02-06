@@ -1,0 +1,82 @@
+{
+  "entry": {
+    "main": "./src/main.js"
+  },
+  "output": {
+    "path": "/Users/lee/Documents/company/webpack-bricks/examples/dist",
+    "filename": "static/js/[name].js",
+    "publicPath": "/"
+  },
+  "resolve": {
+    "alias": {
+      "@": "/Users/lee/Documents/company/webpack-bricks/examples/src"
+    }
+  },
+  "plugins": [
+    {
+      "name": "HappyPack",
+      "state": {
+        "loaders": [],
+        "baseLoaderRequest": "",
+        "foregroundThreadPool": null,
+        "verbose": false,
+        "debug": false
+      },
+      "config": {
+        "id": "babel",
+        "compilerId": "default",
+        "threads": 3,
+        "verbose": true,
+        "threadPool": {
+          "size": 4
+        },
+        "loaders": [
+          {
+            "loader": "babel-loader",
+            "options": {
+              "cacheDirectory": true
+            }
+          }
+        ]
+      },
+      "id": "babel"
+    },
+    {
+      "name": "HappyPack",
+      "state": {
+        "loaders": [],
+        "baseLoaderRequest": "",
+        "foregroundThreadPool": null,
+        "verbose": false,
+        "debug": false
+      },
+      "config": {
+        "id": "css",
+        "compilerId": "default",
+        "threads": 3,
+        "verbose": true,
+        "loaders": [
+          {
+            "loader": "css-loader"
+          }
+        ]
+      },
+      "id": "css"
+    }
+  ],
+  "module": {
+    "rules": [
+      {
+        "test": {},
+        "use": "happypack/loader?id=babel",
+        "exclude": [
+          {}
+        ]
+      },
+      {
+        "test": {},
+        "use": "happypack/loader?id=css"
+      }
+    ]
+  }
+}

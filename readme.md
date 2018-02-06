@@ -1,222 +1,216 @@
 ## Webpack-Bricks
 
-#### simply webpack config use functional config
+#### simply webpack config use standard brick function
 
-this project is under develop,api maybe change
+powered by [config-brick](https://www.npmjs.com/package/config-brick)
 
-define webpack.config.js like this,
-now all defined bricks can see in https://github.com/FlynnLeeGit/webpack-bricks/tree/master/bricks
+let's start by a simple vue config
 
 ```js
-const {
-  createConfig,
-  addSamePlugin,
-  addPlugin,
-  bricks: {
-    entry,
-    output,
-    babel,
-    vue,
-    css,
-    env,
-    extend,
-    extensions,
-    image,
-    media,
-    font,
-    alias,
-    devServer,
-    devtool,
-    uglify
-  }
-} = require('./index.js')
+const $wb = require('webpack-bricks')
 
-const Html = require('html-webpack-plugin')
-
-const config = createConfig([
-  entry(),
-  output({}),
-  babel(),
-  vue(),
-  image(),
-  media(),
-  font(),
-  alias({
-    '@': path.resolve('src')
-  }),
-  addSamePlugin(
-    Html,
-    [
-      {
-        filename: '1.html'
-      },
-      {
-        filename: '2.html'
-      },
-      {
-        filename: '3.html'
-      },
-      {
-        filename: '4.html'
-      },
-      {
-        filename: '5.html'
-      }
-    ],
-    {
-      template: './index.html'
-    }
-  ),
-  css(),
-  extensions(['.vue', '.json']),
-  env('develop', [devServer()]),
-  env('production', [devtool('sourcemap', uglify())])
-])
-
-module.exports = config
+module.exports = $wb()
+  .entry()
+  .output()
+  .vue()
+  .image()
+  .font()
+  .media()
+  .css()
+  .babel()
+  .alias({
+    '@': __dirname + '/src'
+  })
+  .toJson()
+  .value()
 
 // that's it!
+// because use toJson()
+// you will find a config.json in process.cwd() location,that's the final config file json
 ```
 
-## custom bricks
+### custom brick
+
+use standard brick function(SBF) to build config
 
 ```js
-// simplest brick
-module.exports = options => config => {
-  //[options] your brick options
-  //[config] webpackConfig
-
-  config.entry = {
-    main: './src/main.js'
-  }
-  // must return !!
-  return config
+const $wb = require('webpack-bricks')
+const fn1 = opts => conf => {
+  conf.a = 1
+  return conf
 }
+// register bricks
+$wb.registerBrick({
+  fn1
+})
+
+// use it
+const conf = $wb()
+  .fn1()
+  .value()
+// -> {a:1}
 ```
 
-## add loader or loaders use addLoader()
+#### pass SBF arguments
 
 ```js
-// let's add babel-loader && vue-loader
-const { createConfig } = require('webpack-bricks')
-moudle.exports = createConfig([
-  ...
-  addLoader(
-    // for babel
-    {
+const fn2 = opts => conf => {
+  conf.b = opts.b
+  return conf
+}
+
+$wb.registerBrick({
+  fn2
+})
+
+// notice call value() to get final result
+$wb()
+  .fn2({
+    b: 2
+  })
+  .value()
+// -> {b:2}
+```
+
+### initialSeedConfig
+
+```js
+$b({ c: 3 })
+  .fn1()
+  .fn2({ b: 2 })
+  .value()
+// -> {a:1,b:2,c:3}
+```
+
+## some internal bricks from config-brick
+
+### merge
+
+concat when it's array
+
+```js
+$wb({ a: [1], b: 2 })
+  .merge({ a: [2], b: 3 })
+  .value()
+
+// -> {a:[1,2],b:3}
+```
+
+but will ignore when array's element is equal (use `lodash.equal`)
+
+```js
+$wb({ a: [1] })
+  .merge({ a: [1] })
+  .value()
+// -> {a:[1]}
+```
+
+### if
+
+true will use the truthyConf
+false will use the falsyConf
+
+```js
+const bool = true
+$b()
+  .if(
+    bool,
+    conf => {
+      $b(conf)
+        .fn1()
+        .value()
+    },
+    conf =>
+      $b(conf)
+        .fn2()
+        .value()
+  )
+  .value()
+// true will be {a:1}
+// false will be {b:2}
+```
+when it's a array
+it will pipe the function as the final result
+```js
+$b().if(bool, [fn1()], [fn2()])
+```
+
+#### debug mode
+
+if you want to debug which config really added,just add a .debug() fn
+like this
+
+```js
+$b()
+  .debug()
+  .entry()
+  .output()
+  .value()
+```
+
+in terminal it will print
+
+```shell
+[webpack-bricks] brick [entry] layed (6ms)
+ { added: { entry: { main: './src/main.js' } },
+  deleted: {},
+  updated: {} }
+
+[webpack-bricks] brick [output] layed (1ms)
+ { added:
+   { output:
+      { path: '/Users/lee/Documents/company/webpack-bricks/examples/dist',
+        filename: 'static/js/[name].js',
+        publicPath: '/' } },
+  deleted: {},
+  updated: {} }
+```
+
+### example bricks
+
+create a loader
+
+```js
+const $wb = require('webpack-bricks')
+
+const simpleBabelBrick = opts => conf => {
+  const defaultOpts = {
+    cacheDirectory: true
+  }
+  return $wb(conf)
+    .loader({
       test: /\.js$/,
       loader: 'babel-loader',
       exclude: /node_modules/,
-      options: {
-        cacheDirectory: true
-      },
-    }
-    // for vue
-    {
-      test:/\.vue$/,
-      loader: 'vue-loader'
-    }
-  })
-  ...
-])
-```
-
-## or even better to use custom babel brick
-
-let's make a babelBrick
-
-```js
-// babel-brick.js
-const { addLoader, merge } = require('webpack-bricks')
-
-const babelBrick = (options={}) => config => {
-  const defaultOptions = {
-    cacheDirectory: true
-  }
-  const babelOptions = {
-    test: /\.js$/,
-    loader: 'babel-loader',
-    exclude: /node_modules/,
-    options: merge(defaultOptions,options)
-  }
-  return addLoader(babelOptions)(config)
-}
-module.exports = babelBrick
-
-// use in webpack.config.js
-const {createConfig} = require('webpack-bricks')
-const babel = require('./babel-brick')
-module.exports = createConfig([
-  ...
-  babel({
-    presets: [['env']]
-  })
-  ...
-])
-/*
-  will be {
-    test:/\.js$/,
-    loader:'babel-loader',
-    exclude: /node_modules/,
-    options:{
-      cacheDirectory:true,
-      presets: [['env']]
-    }
-  }
-*/
-```
-
-#### cusotm bricks addLoader && addPlugin
-
-```js
-const { pipe, addLoader, addPlugin } = require('webpack-bricks')
-
-const happyBabelBrick = options => config => {
-  const HappyPack = require('happypack')
-  const threadPool = require('./thread-pool')
-  const merge = require('webpack-merge')
-
-  require('babel-loader')
-  const defaultOptions = {
-    cacheDirectory: true
-  }
-  const babelOptions = merge(defaultOptions, options)
-
-  return pipe(
-    addPlugin(
-      new HappyPack({
-        id: 'babel',
-        threadPool,
-        loaders: [
-          {
-            loader: 'babel-loader',
-            options: babelOptions
-          }
-        ]
-      })
-    ),
-    addLoader({
-      test: /\.js$/,
-      use: 'happypack/loader?id=babel',
-      exclude: [/node_modules/]
+      options: $wb(defaultOpts)
+        .merge(opts)
+        .value()
     })
-  )(config)
+    .value()
 }
 
-module.exports = happyBabelBrick
-```
+// register
+$wb.registerBrick({
+  simpleBabel
+})
+// use
+$wb()
+  .simpleBabel()
+  .value()
 
-## extend webpack use extend()
-
-```js
-  const { bricks: {extend} } = require('webpack-bricks')
-  [
-    ...
-    extend({
-      externals:{
-        jquery: 'jQuery'
-      }
-    })
-  ]
-  // will merge config
+// will be
+// {
+//   module: {
+//     rules: [
+//       {
+//         test: /\.js$/,
+//         loader: 'babel-loader',
+//         exclude: /node_modules/,
+//         options: {
+//           cacheDirectory: true
+//         }
+//       }
+//     ]
+//   }
+// }
 ```

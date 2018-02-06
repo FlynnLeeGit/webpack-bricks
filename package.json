@@ -1,15 +1,15 @@
 {
   "name": "webpack-bricks",
   "version": "0.1.45",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "dev:webpack": "cd examples && rm -rf dist && webpack -w --progress",
-    "dev": "nodemon -w webpack.config.js --exec \"npm run dev:webpack\"",
-    "build": "NODE_ENV=production cd examples && webpack --progress --colors --hide-modules",
-    "pub": "npm version patch && npm publish && git push"
+    "test": "jest",
+    "dev": "npm t -- --watch --coverage",
+    "release": "standard-version"
   },
   "dependencies": {
     "chalk": "^2.3.0",
+    "config-brick": "^2.0.0-alpha.0",
     "lodash": "^4.17.4",
     "webpack-merge": "^4.1.1"
   },
@@ -17,7 +17,6 @@
     "url": "https://github.com/FlynnLeeGit/webpack-bricks/tree/master"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.24.1",
@@ -26,12 +25,27 @@
     "file-loader": "^1.1.6",
     "happypack": "^4.0.0",
     "html-webpack-plugin": "^2.30.1",
+    "jest": "^22.1.4",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
+    "standard-version": "^4.3.0",
     "style-loader": "^0.20.1",
+    "twig-loader": "^0.3.1",
     "url-loader": "^0.6.2",
     "vue": "^2.5.13",
+    "vue-loader": "^14.1.1",
+    "vue-template-compiler": "^2.5.13",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.0"
+    "webpack-dev-server": "^2.11.0",
+    "yarn-install": "^0.5.1"
+  },
+  "jest": {
+    "verbose": true,
+    "watchPathIgnorePatterns": [
+      "<rootDir>/node_modules",
+      "<rootDir>/package.json",
+      "<rootDir>/config.json",
+      "<rootDir>/__test__/dist"
+    ]
   }
 }

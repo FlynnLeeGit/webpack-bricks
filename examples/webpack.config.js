@@ -1,54 +1,18 @@
-const {
-  createConfig,
-  addSamePlugin,
-  addPlugin,
-  bricks
-} = require('../index.js')
+const $wb = require('../src/index')
 
-const path = require('path')
-const Html = require('html-webpack-plugin')
+const p = $wb()
+  .entry()
+  .output()
+  .alias({
+    '@': __dirname + '/src'
+  })
+  .image()
+  .font()
+  .media()
+  .babel()
+  .vue()
+  .css()
+  .less()
+  .value()
 
-const config = createConfig([
-  bricks.entry(),
-  bricks.output(),
-  bricks.babel(),
-  bricks.alias({
-    '@': path.resolve('src')
-  }),
-  bricks.media(),
-  bricks.font(),
-  bricks.image(),
-  // bricks.vue(),
-  addSamePlugin(
-    Html,
-    [
-      {
-        filename: '1.html'
-      },
-      {
-        filename: '2.html'
-      },
-      {
-        filename: '3.html'
-      },
-      {
-        filename: '4.html'
-      },
-      {
-        filename: '5.html'
-      }
-    ],
-    {
-      template: './index.html'
-    }
-  ),
-  bricks.css(),
-  bricks.less(),
-  bricks.extensions(['.vue', '.json']),
-  bricks.env('develop', [bricks.devServer()]),
-  bricks.env('production', [bricks.devtool('sourcemap', bricks.uglify())])
-])
-
-console.log('_____config all_____', config)
-
-module.exports = config
+module.exports = p
