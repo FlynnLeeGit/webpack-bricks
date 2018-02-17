@@ -126,11 +126,51 @@ describe('entry brick', () => {
   })
 })
 
+describe('devtool brick', () => {
+  test('should work', () => {
+    const conf = $wb()
+      .devtool('source-map')
+      .value()
+    expect(conf).toEqual({
+      devtool: 'source-map'
+    })
+  })
+})
+
+describe('globEntry brick', () => {
+  test('should exist', () => {
+    expect($wb.prototype.globEntry).toBeDefined()
+    expect($wb.bricks.globEntry).toBeDefined()
+  })
+  test('should default ok', () => {
+    const conf = $wb().value()
+    expect(conf).toEqual({})
+  })
+  test('should glob array path pattern ok', () => {
+    const conf = $wb()
+      .globEntry([path.join(__dirname, './src/less/**/!(_*).less')])
+      .value()
+    expect(conf).toMatchSnapshot()
+  })
+  test('should glob string path ok', () => {
+    const conf = $wb()
+      .globEntry(path.join(__dirname, './src/less/**/!(_*).less'))
+      .value()
+    expect(conf).toMatchSnapshot()
+  })
+  test('should no wild entry ok', () => {
+    const conf = $wb()
+      .globEntry(path.join(__dirname, './src/less/a.less'))
+      .value()
+    expect(conf).toMatchSnapshot()
+  })
+})
 describe('output brick', () => {
   test('exist', () => {
     expect($wb.prototype.output).toBeDefined()
     expect($wb.bricks.output).toBeDefined()
   })
+
   test('default output equal', () => {
     const conf = $wb()
       .output()

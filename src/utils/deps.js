@@ -1,4 +1,4 @@
-const $wb = require('../core')
+const $wb = require('../webpack-bricks')
 const install = require('yarn-install')
 
 const { yellow } = require('chalk')
@@ -10,7 +10,7 @@ const deps = (deps, opts) =>
       try {
         require.resolve(dep)
       } catch (e) {
-        console.log(`${$wb.themeTitle()} dep not installed ${yellow(dep)}`)
+        console.log(`${$wb.Name} dep not installed ${yellow(dep)}`)
         depNotInstalled.push(dep)
       }
     })

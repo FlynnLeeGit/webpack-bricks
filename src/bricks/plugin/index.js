@@ -1,7 +1,7 @@
-const $wb = require('../../core')
+const $b = require('config-brick')
 
 const pluginBrick = (...opts) => conf => {
-  return $wb(conf)
+  return $b(conf)
     .merge({
       plugins: [...opts]
     })

@@ -1,0 +1,69 @@
+{
+  "entry": {
+    "main": "./src/main.js"
+  },
+  "output": {
+    "path": "/Users/lee/Documents/company/webpack-bricks/examples/dist",
+    "filename": "static/js/[name].js",
+    "publicPath": "/"
+  },
+  "plugins": [
+    {
+      "name": "HappyPack",
+      "state": {
+        "loaders": [],
+        "baseLoaderRequest": "",
+        "foregroundThreadPool": null,
+        "verbose": false,
+        "debug": false
+      },
+      "config": {
+        "id": "less-link",
+        "compilerId": "default",
+        "threads": 3,
+        "verbose": true,
+        "threadPool": {
+          "size": 4
+        },
+        "loaders": [
+          {
+            "loader": "css-loader",
+            "options": {}
+          },
+          {
+            "loader": "less-loader",
+            "options": {}
+          }
+        ]
+      },
+      "id": "less-link"
+    },
+    {
+      "filename": "static/css/[name].css?[contenthash:8]",
+      "id": 1,
+      "options": {}
+    }
+  ],
+  "module": {
+    "rules": [
+      {
+        "test": {},
+        "use": [
+          {
+            "loader": "/Users/lee/Documents/company/webpack-bricks/node_modules/extract-text-webpack-plugin/dist/loader.js",
+            "options": {
+              "omit": 1,
+              "remove": true
+            }
+          },
+          {
+            "loader": "style-loader"
+          },
+          {
+            "loader": "happypack/loader?id=less-link"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
-const $wb = require('../../core')
+const $b = require('config-brick')
 
 const loaders = opts => conf => {
-  return $wb(conf)
+  return $b(conf)
     .merge({
       module: {
         rules: [...opts]

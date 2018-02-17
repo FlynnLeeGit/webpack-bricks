@@ -1,7 +1,9 @@
 const WebpackBricks = require('./webpack-bricks')
 
 const entry = require('./bricks/entry')
+const globEntry = require('./bricks/globEntry')
 const output = require('./bricks/output')
+const devtool = require('./bricks/devtool')
 
 const babel = require('./bricks/happy-bricks/babel')
 const less = require('./bricks/happy-bricks/less')
@@ -19,7 +21,9 @@ const tailAlias = require('./bricks/alias/tail')
 
 module.exports = WebpackBricks.registerBrick({
   entry,
+  globEntry,
   output,
+  devtool,
   babel,
   vue,
   less,

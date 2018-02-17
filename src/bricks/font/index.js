@@ -3,12 +3,12 @@ const deps = require('../../utils/deps')
 
 // https://www.npmjs.com/package/url-loader
 const fontBrick = (options = {}) => (config, next) => {
-  deps(['url-loader', 'file-loader']).then(() => {
-    const defaultOptions = {
-      limit: 10000,
-      name: `static/font/[name].[ext]?[hash:7]`
-    }
+  const defaultOptions = {
+    limit: 10000,
+    name: `static/font/[name].[ext]?[hash:7]`
+  }
 
+  deps(['url-loader', 'file-loader']).then(() => {
     next(
       $wb(config)
         .loader({

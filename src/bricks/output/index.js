@@ -1,5 +1,5 @@
 const path = require('path')
-const $wb = require('../../core')
+const $wb = require('../../webpack-bricks')
 
 const outputBrick = opts => conf => {
   const defaultOpts = {

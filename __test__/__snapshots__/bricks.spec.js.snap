@@ -111,6 +111,34 @@ Object {
 }
 `;
 
+exports[`globEntry brick should glob array path pattern ok 1`] = `
+Object {
+  "entry": Object {
+    "a": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/a.less",
+    "b": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/b.less",
+    "d/e": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/d/e.less",
+  },
+}
+`;
+
+exports[`globEntry brick should glob string path ok 1`] = `
+Object {
+  "entry": Object {
+    "a": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/a.less",
+    "b": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/b.less",
+    "d/e": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/d/e.less",
+  },
+}
+`;
+
+exports[`globEntry brick should no wild entry ok 1`] = `
+Object {
+  "entry": Object {
+    "a": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/a.less",
+  },
+}
+`;
+
 exports[`image brick should image default correct 1`] = `
 Object {
   "module": Object {

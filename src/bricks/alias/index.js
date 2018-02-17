@@ -1,4 +1,4 @@
-const $wb = require('../../core')
+const $wb = require('../../webpack-bricks')
 
 const aliasBrick = options => config => {
   return $wb(config)
