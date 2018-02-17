@@ -1,15 +1,12 @@
-const $wb = require('../../webpack-bricks')
+const $ = require('config-brick')
 
-const aliasBrick = options => config => {
-  return $wb(config)
-    .merge({
-      resolve: {
-        alias: $wb()
-          .merge(options)
-          .value()
-      }
-    })
-    .value()
+const aliasBrick = options => conf => {
+  const defaultOptions = {}
+  return $.merge({
+    resolve: {
+      alias: $.merge(options)(defaultOptions)
+    }
+  })(conf)
 }
 
 module.exports = aliasBrick

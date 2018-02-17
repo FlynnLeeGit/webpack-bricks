@@ -1,11 +1,9 @@
-const $wb = require('../../webpack-bricks')
+const { merge } = require('config-brick')
 
 const devtoolBrick = options => conf => {
-  return $wb(conf)
-    .merge({
-      devtool: options
-    })
-    .value()
+  return merge({
+    devtool: options
+  })(conf)
 }
 
 module.exports = devtoolBrick

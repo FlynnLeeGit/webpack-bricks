@@ -1,11 +1,9 @@
-const $b = require('config-brick')
+const $ = require('config-brick')
 
-const plugins = opts => conf => {
-  return $b(conf)
-    .merge({
-      plugins: [...opts]
-    })
-    .value()
+const pluginBrick = (plugins = []) => conf => {
+  return $(conf).merge({
+    plugins: [...plugins]
+  })
 }
 
-module.exports = plugins
+module.exports = pluginBrick

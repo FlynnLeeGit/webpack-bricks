@@ -1,4 +1,4 @@
-const $wb = require('../webpack-bricks')
+const { mergeR } = require('config-brick')
 const install = require('yarn-install')
 
 const { yellow } = require('chalk')
@@ -10,17 +10,12 @@ const deps = (deps, opts) =>
       try {
         require.resolve(dep)
       } catch (e) {
-        console.log(`${$wb.Name} dep not installed ${yellow(dep)}`)
+        console.log(`[webpack-bricks] dep not installed ${yellow(dep)}`)
         depNotInstalled.push(dep)
       }
     })
     if (depNotInstalled.length) {
-      install(
-        depNotInstalled,
-        $wb({ dev: true })
-          .merge(opts)
-          .value()
-      )
+      install(depNotInstalled, mergeR({ dev: true })(opts))
       process.nextTick(() => {
         resolve()
       })

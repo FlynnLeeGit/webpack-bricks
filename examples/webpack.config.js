@@ -1,4 +1,4 @@
-const $wb = require('../src/index')
+const $ = require('../src/index')
 
 const p = $wb()
   .entry()

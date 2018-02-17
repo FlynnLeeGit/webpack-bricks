@@ -1,13 +1,11 @@
-const $b = require('config-brick')
+const $ = require('config-brick')
 
-const loaderBrick = (...opts) => conf => {
-  return $b(conf)
-    .merge({
-      module: {
-        rules: [...opts]
-      }
-    })
-    .value()
+const loaderBrick = (...loaders) => conf => {
+  return $(conf).merge({
+    module: {
+      rules: [...loaders]
+    }
+  })
 }
 
 module.exports = loaderBrick
