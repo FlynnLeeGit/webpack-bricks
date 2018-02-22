@@ -10,6 +10,7 @@ class Urls {
     this.vueFile = path.join(this.staticPath, 'js', 'vue.js')
     this.cssFile = path.join(this.staticPath, 'css', 'css.css')
     this.lessFile = path.join(this.staticPath, 'css', 'less.css')
+    this.sassFile = path.join(this.staticPath, 'css', 'sass.css')
     this.twigFile = path.join(this.staticPath, 'js', 'twig.js')
   }
 }
@@ -31,6 +32,9 @@ class WebpackBuilder {
     const compiler = webpack(this.webpackConfig)
     compiler.run((err, stats) => {
       expect(err).toBeFalsy()
+      // console.log(stats.toString({
+      //   colors:true
+      // }))
       expect(stats.hasErrors()).toBe(false)
       cb(stats)
     })
@@ -136,7 +140,7 @@ describe('devtool brick', () => {
     expect(conf).toEqual({
       devtool: 'source-map'
     })
-  });
+  })
   test('should work', () => {
     const conf = $().lay($.devtool('eval-source-map'))
     expect(conf).toEqual({
@@ -348,6 +352,91 @@ describe('less brick', () => {
         new WebpackBuilder(conf).compile(() => {
           expect(() => {
             fse.readFileSync(urls.lessFile, 'utf-8')
+          }).toThrow()
+          done()
+        })
+      })
+  })
+})
+
+describe('sass brick test', () => {
+  test('should scss link work', done => {
+    $()
+      .lay(
+        $.entry({
+          sass: './src/sass.scss'
+        }),
+        $.output({
+          path: urls.outputPath
+        }),
+        $.sass()
+      )
+      .then(conf => {
+        new WebpackBuilder(conf).compile(() => {
+          const sass = fse.readFileSync(urls.sassFile, 'utf-8')
+          expect(sass).toMatchSnapshot()
+          done()
+        })
+      })
+  })
+  test('should scss not extract', done => {
+    $()
+      .lay(
+        $.entry({
+          sass: './src/sass.scss'
+        }),
+        $.output({
+          path: urls.outputPath
+        }),
+        $.sass({
+          extract: false
+        })
+      )
+      .then(conf => {
+        new WebpackBuilder(conf).compile(() => {
+          expect(() => {
+            fse.readFileSync(urls.sassFile, 'utf-8')
+          }).toThrow()
+          done()
+        })
+      })
+  })
+  test('should sass link work', done => {
+    $()
+      .lay(
+        $.entry({
+          sass: './src/sass.sass'
+        }),
+        $.output({
+          path: urls.outputPath
+        }),
+        $.sass()
+      )
+      .then(conf => {
+        new WebpackBuilder(conf).compile(() => {
+          const sass = fse.readFileSync(urls.sassFile, 'utf-8')
+          expect(sass).toMatchSnapshot()
+          done()
+        })
+      })
+  })
+  test('should sass not extract', done => {
+    $()
+      .lay(
+        $.entry({
+          sass: './src/sass.sass'
+        }),
+        $.output({
+          path: urls.outputPath
+        }),
+        $.sass({
+          extract: false
+        })
+      )
+      .then(conf => {
+        new WebpackBuilder(conf).compile(() => {
+          expect(() => {
+            fse.readFileSync(urls.sassFile, 'utf-8')
           }).toThrow()
           done()
         })

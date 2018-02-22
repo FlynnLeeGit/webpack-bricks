@@ -87,8 +87,8 @@ var update = __webpack_require__(3)(content, options);
 if(content.locals) module.exports = content.locals;
 
 if(false) {
-	module.hot.accept("!!../../node_modules/css-loader/index.js?{}!../../node_modules/less-loader/dist/cjs.js?{}!./less.less", function() {
-		var newContent = require("!!../../node_modules/css-loader/index.js?{}!../../node_modules/less-loader/dist/cjs.js?{}!./less.less");
+	module.hot.accept("!!../../node_modules/css-loader/index.js?{}!../../node_modules/sass-loader/lib/loader.js?{\"indentedSyntax\":true}!./sass.sass", function() {
+		var newContent = require("!!../../node_modules/css-loader/index.js?{}!../../node_modules/sass-loader/lib/loader.js?{\"indentedSyntax\":true}!./sass.sass");
 
 		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 
@@ -122,7 +122,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "body {\n  color: green;\n}\n", ""]);
+exports.push([module.i, "body {\n  color: red; }\n", ""]);
 
 // exports
 

@@ -11,6 +11,7 @@
     "chalk": "^2.3.0",
     "config-brick": "^3.0.0",
     "lodash": "^4.17.4",
+    "node-sass": "^4.7.2",
     "yarn-install": "^0.5.1"
   },
   "repository": {
@@ -28,6 +29,7 @@
     "jest": "^22.1.4",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
+    "sass-loader": "^6.0.6",
     "standard-version": "^4.3.0",
     "style-loader": "^0.20.1",
     "twig-loader": "^0.3.1",

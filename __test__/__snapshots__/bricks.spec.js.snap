@@ -158,19 +158,6 @@ Object {
 }
 `;
 
-exports[`extensions brick should work 1`] = `
-Object {
-  "resolve": Object {
-    "extensions": Array [
-      ".js",
-      ".jsx",
-      ".json",
-      ".vue",
-    ],
-  },
-}
-`;
-
 exports[`font brick should font default correct 1`] = `
 Object {
   "module": Object {
@@ -227,6 +214,18 @@ Object {
     ],
   },
 }
+`;
+
+exports[`sass brick test should sass link work 1`] = `
+"body {
+  color: red; }
+"
+`;
+
+exports[`sass brick test should scss link work 1`] = `
+"body {
+  color: red; }
+"
 `;
 
 exports[`tailAlias brick should tail Alias correct 1`] = `
