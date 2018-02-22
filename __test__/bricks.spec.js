@@ -359,7 +359,7 @@ describe('less brick', () => {
   })
 })
 
-describe('sass brick test', () => {
+describe.skip('sass brick test', () => {
   test('should scss link work', done => {
     $()
       .lay(
