@@ -54,5 +54,6 @@ wb.image = require('./image')
 wb.deps = require('./deps')
 wb.twig = require('./twig')
 wb.extensions = require('./extensions')
+wb.uglify = require('./uglify')
 
 module.exports = wb

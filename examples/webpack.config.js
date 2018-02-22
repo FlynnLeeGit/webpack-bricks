@@ -5,14 +5,15 @@ const jsTask = $().lay(
   $.output(),
   $.css(),
   $.less(),
-  $.sass(),
   $.image(),
   $.font(),
   $.vue(),
   $.media(),
+  $.babel(),
   $.alias({
     '@': __dirname + '/src'
   }),
+  $.uglify(),
   $.outputJson('.tmp/config.json')
 )
 

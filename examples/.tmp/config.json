@@ -79,7 +79,7 @@
         "debug": false
       },
       "config": {
-        "id": "scss",
+        "id": "babel",
         "compilerId": "default",
         "threads": 3,
         "verbose": true,
@@ -88,56 +88,25 @@
         },
         "loaders": [
           {
-            "loader": "style-loader",
-            "options": {}
-          },
-          {
-            "loader": "css-loader",
-            "options": {}
-          },
-          {
-            "loader": "sass-loader",
-            "options": {}
-          }
-        ]
-      },
-      "id": "scss"
-    },
-    {
-      "name": "HappyPack",
-      "state": {
-        "loaders": [],
-        "baseLoaderRequest": "",
-        "foregroundThreadPool": null,
-        "verbose": false,
-        "debug": false
-      },
-      "config": {
-        "id": "sass",
-        "compilerId": "default",
-        "threads": 3,
-        "verbose": true,
-        "threadPool": {
-          "size": 4
-        },
-        "loaders": [
-          {
-            "loader": "style-loader",
-            "options": {}
-          },
-          {
-            "loader": "css-loader",
-            "options": {}
-          },
-          {
-            "loader": "sass-loader",
+            "loader": "babel-loader",
             "options": {
-              "indentedSyntax": true
+              "cacheDirectory": true
             }
           }
         ]
       },
-      "id": "sass"
+      "id": "babel"
+    },
+    {
+      "options": {
+        "parallel": true,
+        "cache": true,
+        "uglifyOptions": {
+          "compress": {
+            "warnings": false
+          }
+        }
+      }
     }
   ],
   "module": {
@@ -180,14 +149,6 @@
       },
       {
         "test": {},
-        "use": "happypack/loader?id=scss"
-      },
-      {
-        "test": {},
-        "use": "happypack/loader?id=sass"
-      },
-      {
-        "test": {},
         "loader": "url-loader",
         "options": {
           "limit": 10000,
@@ -205,14 +166,7 @@
       {
         "test": {},
         "loader": "vue-loader",
-        "options": {
-          "extract": true,
-          "loaders": [
-            {
-              "test": {}
-            }
-          ]
-        }
+        "options": {}
       },
       {
         "test": {},
@@ -221,6 +175,13 @@
           "limit": 10000,
           "name": "static/media/[name].[ext]?[hash:7]"
         }
+      },
+      {
+        "test": {},
+        "use": "happypack/loader?id=babel",
+        "exclude": [
+          {}
+        ]
       }
     ]
   },
