@@ -1,4 +1,4 @@
-const { when, pipe, pipeAsync, merge, outputJson } = require('config-brick')
+const { when,lay, pipe, pipeAsync, merge, outputJson } = require('config-brick')
 
 class WebpackBricks {
   constructor(seed = {}) {
@@ -9,7 +9,7 @@ class WebpackBricks {
    * pre output will be next input
    * (a->Promise(seed)->(b->Promise(a))->(c->Promise(c))...->z->Promise(y))
    * @param { Array<Function> } bricks
-   * @return { Promise<any> }
+   * @return { any }
    * @example
    * const build = $().lay(
    *  $.entry()
@@ -20,27 +20,12 @@ class WebpackBricks {
    * })
    */
   lay(...bricks) {
-    return pipeAsync(...bricks)(this.seed)
-  }
-  /**
-   * sync waterall function
-   * @param { Array<Function> } bricks sync bricks function
-   * @return {any}
-   * @example
-   * const conf = $().laySync(
-   *  $.entry()
-   *  $.output()
-   * )
-   * console.log(conf)
-   */
-  laySync(...bricks) {
-    return pipe(...bricks)(this.seed)
+    return lay(...bricks)(this.seed)
   }
 }
 const wb = function(...args) {
   return new WebpackBricks(...args)
 }
-
 wb.if = when
 wb.when = when
 wb.pipe = pipe
