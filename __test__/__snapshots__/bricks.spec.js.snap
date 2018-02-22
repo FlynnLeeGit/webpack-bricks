@@ -94,6 +94,83 @@ exports[`css brick should work 1`] = `
 }"
 `;
 
+exports[`entries brick should glob array path pattern ok 1`] = `
+Object {
+  "entry": Object {
+    "a": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/a.less",
+    "b": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/b.less",
+    "d/e": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/d/e.less",
+  },
+}
+`;
+
+exports[`entries brick should glob string path ok 1`] = `
+Object {
+  "entry": Object {
+    "a": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/a.less",
+    "b": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/b.less",
+    "d/e": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/d/e.less",
+  },
+}
+`;
+
+exports[`entries brick should magic sign ok 1`] = `
+Object {
+  "entry": Object {
+    "a": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/a.less",
+    "b": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/b.less",
+  },
+}
+`;
+
+exports[`entries brick should no wild entry ok 1`] = `
+Object {
+  "entry": Object {
+    "a": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/a.less",
+  },
+}
+`;
+
+exports[`extensions brick should add work 1`] = `
+Object {
+  "resolve": Object {
+    "extensions": Array [
+      ".js",
+      ".jsx",
+      ".json",
+      ".vue",
+      ".cc",
+    ],
+  },
+}
+`;
+
+exports[`extensions brick should default work 1`] = `
+Object {
+  "resolve": Object {
+    "extensions": Array [
+      ".js",
+      ".jsx",
+      ".json",
+      ".vue",
+    ],
+  },
+}
+`;
+
+exports[`extensions brick should work 1`] = `
+Object {
+  "resolve": Object {
+    "extensions": Array [
+      ".js",
+      ".jsx",
+      ".json",
+      ".vue",
+    ],
+  },
+}
+`;
+
 exports[`font brick should font default correct 1`] = `
 Object {
   "module": Object {
@@ -107,34 +184,6 @@ Object {
         "test": /\\\\\\.\\(woff2\\?\\|eot\\|ttf\\|otf\\)\\(\\\\\\?\\.\\*\\)\\?\\$/,
       },
     ],
-  },
-}
-`;
-
-exports[`globEntry brick should glob array path pattern ok 1`] = `
-Object {
-  "entry": Object {
-    "a": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/a.less",
-    "b": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/b.less",
-    "d/e": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/d/e.less",
-  },
-}
-`;
-
-exports[`globEntry brick should glob string path ok 1`] = `
-Object {
-  "entry": Object {
-    "a": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/a.less",
-    "b": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/b.less",
-    "d/e": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/d/e.less",
-  },
-}
-`;
-
-exports[`globEntry brick should no wild entry ok 1`] = `
-Object {
-  "entry": Object {
-    "a": "/Users/lee/Documents/company/webpack-bricks/__test__/src/less/a.less",
   },
 }
 `;

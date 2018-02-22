@@ -1,5 +1,5 @@
 const $ = require('../src/index')
-const deps = require('../src/utils/deps')
+const deps = require('../src/deps')
 const fse = require('fs-extra')
 const path = require('path')
 class Urls {
@@ -41,7 +41,7 @@ describe('deps uitls work', () => {
   test('should exist', () => {
     expect(deps).toBeDefined()
   })
-  test.skip('should install deps when there is not in node_modules', done => {
+  test('should install deps when there is not in node_modules', done => {
     const nodeModules = path.resolve(__dirname, '..', 'node_modules')
     const fileLoader = path.join(nodeModules, 'file-loader')
     fse.removeSync(fileLoader)
@@ -55,20 +55,27 @@ describe('deps uitls work', () => {
   })
 })
 
-const $b = $.bricks
 describe('plugins brick', () => {
+  test('should default ok', () => {
+    expect($().lay($.plugin())).toEqual({
+      plugins: []
+    })
+    expect($().lay($.plugins())).toEqual({
+      plugins: []
+    })
+  })
   test('should add plugin object', () => {
     const Plugin = function() {
       this.a = 1
     }
-    const conf = $().lay([$b.plugin(new Plugin())])
+    const conf = $().lay($.plugin(new Plugin()))
     expect(conf).toEqual({
       plugins: [{ a: 1 }]
     })
-    const conf2 = $().lay([
+    const conf2 = $().lay(
       //
-      $b.plugins([new Plugin()])
-    ])
+      $.plugins([new Plugin()])
+    )
     expect(conf2).toEqual({
       plugins: [{ a: 1 }]
     })
@@ -76,15 +83,22 @@ describe('plugins brick', () => {
 })
 
 describe('loaders brick', () => {
+  test('should default ok', () => {
+    expect($().lay($.loaders())).toEqual({
+      module: {
+        rules: []
+      }
+    })
+  })
   test('should add loader object', () => {
     const demoRule = { test: /\.js$/, loader: 'vue-loader' }
-    const conf = $().lay([$b.loader(demoRule)])
+    const conf = $().lay($.loader(demoRule))
     expect(conf).toEqual({
       module: {
         rules: [demoRule]
       }
     })
-    const conf2 = $().lay([$b.loaders([demoRule])])
+    const conf2 = $().lay($.loaders([demoRule]))
     expect(conf2).toEqual({
       module: {
         rules: [demoRule]
@@ -93,350 +107,302 @@ describe('loaders brick', () => {
   })
 })
 
-// describe('entry brick', () => {
-//   test('exist', () => {
-//     expect($wb.prototype.entry).toBeDefined()
-//     expect($wb.bricks.entry).toBeDefined()
-//   })
-//   test('default entry  shoud be main: ./src/main.js', () => {
-//     const conf = $wb()
-//       .entry()
-//       .value()
-//     expect(conf).toEqual({
-//       entry: {
-//         main: './src/main.js'
-//       }
-//     })
-//   })
-//   test('should use user entry', () => {
-//     const conf = $wb()
-//       .entry({
-//         one: './src/one.js'
-//       })
-//       .value()
-//     expect(conf).toEqual({
-//       entry: {
-//         one: './src/one.js'
-//       }
-//     })
-//   })
-// })
+describe('entry brick', () => {
+  test('default entry  shoud be main: ./src/main.js', () => {
+    const conf = $().lay($.entry())
+    expect(conf).toEqual({
+      entry: {
+        main: './src/main.js'
+      }
+    })
+  })
+  test('should use user entry', () => {
+    const conf = $().lay(
+      $.entry({
+        one: './src/one.js'
+      })
+    )
+    expect(conf).toEqual({
+      entry: {
+        one: './src/one.js'
+      }
+    })
+  })
+})
 
-// describe('devtool brick', () => {
-//   test('should work', () => {
-//     const conf = $wb()
-//       .devtool('source-map')
-//       .value()
-//     expect(conf).toEqual({
-//       devtool: 'source-map'
-//     })
-//   })
-// })
+describe('devtool brick', () => {
+  test('should default ok', () => {
+    const conf = $().lay($.devtool())
+    expect(conf).toEqual({
+      devtool: 'source-map'
+    })
+  });
+  test('should work', () => {
+    const conf = $().lay($.devtool('eval-source-map'))
+    expect(conf).toEqual({
+      devtool: 'eval-source-map'
+    })
+  })
+})
 
-// describe('globEntry brick', () => {
-//   test('should exist', () => {
-//     expect($wb.prototype.globEntry).toBeDefined()
-//     expect($wb.bricks.globEntry).toBeDefined()
-//   })
-//   test('should default ok', () => {
-//     const conf = $wb().value()
-//     expect(conf).toEqual({})
-//   })
-//   test('should glob array path pattern ok', () => {
-//     const conf = $wb()
-//       .globEntry([path.join(__dirname, './src/less/**/!(_*).less')])
-//       .value()
-//     expect(conf).toMatchSnapshot()
-//   })
-//   test('should glob string path ok', () => {
-//     const conf = $wb()
-//       .globEntry(path.join(__dirname, './src/less/**/!(_*).less'))
-//       .value()
-//     expect(conf).toMatchSnapshot()
-//   })
-//   test('should no wild entry ok', () => {
-//     const conf = $wb()
-//       .globEntry(path.join(__dirname, './src/less/a.less'))
-//       .value()
-//     expect(conf).toMatchSnapshot()
-//   })
-// })
-// describe('output brick', () => {
-//   test('exist', () => {
-//     expect($wb.prototype.output).toBeDefined()
-//     expect($wb.bricks.output).toBeDefined()
-//   })
+describe('entries brick', () => {
+  test('should default ok', () => {
+    const conf = $().lay($.entries())
+    expect(conf).toEqual({
+      entry: {}
+    })
+  })
+  test('should glob array path pattern ok', () => {
+    const conf = $().lay(
+      $.entries([path.join(__dirname, './src/less/**/!(_*).less')])
+    )
+    expect(conf).toMatchSnapshot()
+  })
+  test('should glob string path ok', () => {
+    const conf = $().lay(
+      $.entries(path.join(__dirname, './src/less/**/!(_*).less'))
+    )
+    expect(conf).toMatchSnapshot()
+  })
+  test('should no wild entry ok', () => {
+    const conf = $().lay($.entries(path.join(__dirname, './src/less/a.less')))
+    expect(conf).toMatchSnapshot()
+  })
+  test('should magic sign ok', () => {
+    const conf = $().lay(
+      $.entries(path.join(__dirname, './src/less/!(_*).less'))
+    )
+    expect(conf).toMatchSnapshot()
+  })
+})
 
-//   test('default output equal', () => {
-//     const conf = $wb()
-//       .output()
-//       .value()
-//     expect(conf).toEqual({
-//       output: {
-//         path: path.resolve('dist'),
-//         filename: 'static/js/[name].js',
-//         publicPath: '/'
-//       }
-//     })
-//   })
-//   test('should merge userOptions', () => {
-//     const conf = $wb()
-//       .output({
-//         publicPath: '/dist/',
-//         chunkFileName: '[id].[name].js'
-//       })
-//       .value()
-//     expect(conf).toEqual({
-//       output: {
-//         path: path.resolve('dist'),
-//         filename: 'static/js/[name].js',
-//         publicPath: '/dist/',
-//         chunkFileName: '[id].[name].js'
-//       }
-//     })
-//   })
-// })
+describe('output brick', () => {
+  test('should merge userOptions', () => {
+    const conf = $().lay(
+      $.output({
+        publicPath: '/dist/',
+        chunkFileName: '[id].[name].js'
+      })
+    )
+    expect(conf).toEqual({
+      output: {
+        path: path.resolve('dist'),
+        filename: 'static/js/[name].js',
+        publicPath: '/dist/',
+        chunkFileName: '[id].[name].js'
+      }
+    })
+  })
+})
 
-// describe('babel brick', () => {
-//   test('exist', () => {
-//     expect($wb.prototype.babel).toBeDefined()
-//     expect($wb.bricks.babel).toBeDefined()
-//   })
-//   test('babel should work', done => {
-//     $wb()
-//       .entry()
-//       .output({
-//         path: urls.outputPath
-//       })
-//       .babel()
-//       .value()
-//       .then(conf => {
-//         new WebpackBuilder(conf).compile(() => {
-//           const file = fse.readFileSync(urls.jsFile, 'utf-8')
-//           expect(file).toMatchSnapshot()
-//           done()
-//         })
-//       })
-//   })
-// })
+describe('babel brick', () => {
+  test('babel should work', done => {
+    $()
+      .lay(
+        $.entry(),
+        $.output({
+          path: urls.outputPath
+        }),
+        $.babel()
+      )
+      .then(conf => {
+        new WebpackBuilder(conf).compile(() => {
+          const file = fse.readFileSync(urls.jsFile, 'utf-8')
+          expect(file).toMatchSnapshot()
+          done()
+        })
+      })
+  })
+})
 
-// describe('vue brick', () => {
-//   test('exist', () => {
-//     expect($wb.prototype.vue).toBeDefined()
-//     expect($wb.bricks.vue).toBeDefined()
-//   })
+describe('vue brick', () => {
+  test('vue should work', done => {
+    $()
+      .lay(
+        $.entry({
+          vue: './src/vue.js'
+        }),
+        $.output({
+          path: urls.outputPath
+        }),
+        $.vue()
+      )
+      .then(conf => {
+        new WebpackBuilder(conf).compile(() => {
+          const file = fse.readFileSync(urls.vueFile, 'utf-8')
+          expect(file).toMatchSnapshot()
+          done()
+        })
+      })
+  })
+})
 
-//   test('vue should work', done => {
-//     $wb()
-//       .entry({
-//         vue: './src/vue.js'
-//       })
-//       .output({
-//         path: urls.outputPath
-//       })
-//       .vue()
-//       .value()
-//       .then(conf => {
-//         new WebpackBuilder(conf).compile(() => {
-//           const file = fse.readFileSync(urls.vueFile, 'utf-8')
-//           expect(file).toMatchSnapshot()
-//           done()
-//         })
-//       })
-//   })
-// })
+describe('image brick', () => {
+  test('should image default correct', done => {
+    $()
+      .lay($.image())
+      .then(conf => {
+        expect(conf).toMatchSnapshot()
+        done()
+      })
+  })
+})
+describe('font brick', () => {
+  test('should font default correct', done => {
+    $()
+      .lay($.font())
+      .then(conf => {
+        expect(conf).toMatchSnapshot()
+        done()
+      })
+  })
+})
+describe('media brick', () => {
+  test('should media default correct', done => {
+    $()
+      .lay($.media())
+      .then(conf => {
+        expect(conf).toMatchSnapshot()
+        done()
+      })
+  })
+})
+describe('css brick', () => {
+  test('should work', done => {
+    $()
+      .lay(
+        $.entry({
+          css: './src/css.css'
+        }),
+        $.output({
+          path: urls.outputPath
+        }),
+        $.css()
+      )
+      .then(conf => {
+        new WebpackBuilder(conf).compile(() => {
+          const css = fse.readFileSync(urls.cssFile, 'utf-8')
+          expect(css).toMatchSnapshot()
+          done()
+        })
+      })
+  })
+  test('should not extract', done => {
+    $()
+      .lay(
+        $.entry({
+          less: './src/css.css'
+        }),
+        $.output({
+          path: urls.outputPath
+        }),
+        $.css({
+          extract: false
+        })
+      )
+      .then(conf => {
+        new WebpackBuilder(conf).compile(() => {
+          expect(() => {
+            fse.readFileSync(urls.cssFile, 'utf-8')
+          }).toThrow()
+          done()
+        })
+      })
+  })
+})
 
-// describe('image brick', () => {
-//   test('should exist', () => {
-//     expect($wb.prototype.image).toBeDefined()
-//     expect($wb.bricks.image).toBeDefined()
-//   })
-//   test('should image default correct', done => {
-//     $wb()
-//       .image()
-//       .value()
-//       .then(conf => {
-//         expect(conf).toMatchSnapshot()
-//         done()
-//       })
-//   })
-// })
-// describe('css brick', () => {
-//   test('should exist', () => {
-//     expect($wb.prototype.css).toBeDefined()
-//     expect($wb.bricks.css).toBeDefined()
-//   })
-//   test('should work', done => {
-//     $wb()
-//       .entry({
-//         css: './src/css.css'
-//       })
-//       .output({
-//         path: urls.outputPath
-//       })
-//       .css()
-//       .value()
-//       .then(conf => {
-//         new WebpackBuilder(conf).compile(() => {
-//           const css = fse.readFileSync(urls.cssFile, 'utf-8')
-//           expect(css).toMatchSnapshot()
-//           done()
-//         })
-//       })
-//   })
-//   test('should not extract', done => {
-//     $wb()
-//       .entry({
-//         less: './src/css.css'
-//       })
-//       .output({
-//         path: urls.outputPath
-//       })
-//       .css({
-//         extract: false
-//       })
-//       .value()
-//       .then(conf => {
-//         new WebpackBuilder(conf).compile(() => {
-//           expect(() => {
-//             fse.readFileSync(urls.cssFile, 'utf-8')
-//           }).toThrow()
-//           done()
-//         })
-//       })
-//   })
-// })
+describe('less brick', () => {
+  test('should work', done => {
+    $()
+      .lay(
+        $.entry({
+          less: './src/less.less'
+        }),
+        $.output({
+          path: urls.outputPath
+        }),
+        $.less()
+      )
+      .then(conf => {
+        new WebpackBuilder(conf).compile(() => {
+          const less = fse.readFileSync(urls.lessFile, 'utf-8')
+          expect(less).toMatchSnapshot()
+          done()
+        })
+      })
+  })
+  test('should not extract', done => {
+    $()
+      .lay(
+        $.entry({
+          less: './src/less.less'
+        }),
+        $.output({
+          path: urls.outputPath
+        }),
+        $.less({
+          extract: false
+        })
+      )
+      .then(conf => {
+        new WebpackBuilder(conf).compile(() => {
+          expect(() => {
+            fse.readFileSync(urls.lessFile, 'utf-8')
+          }).toThrow()
+          done()
+        })
+      })
+  })
+})
 
-// describe('less brick', () => {
-//   test('should exist', () => {
-//     expect($wb.prototype.less).toBeDefined()
-//     expect($wb.bricks.less).toBeDefined()
-//   })
-//   test('should work', done => {
-//     $wb()
-//       .entry({
-//         less: './src/less.less'
-//       })
-//       .output({
-//         path: urls.outputPath
-//       })
-//       .less()
-//       .value()
-//       .then(conf => {
-//         new WebpackBuilder(conf).compile(() => {
-//           const less = fse.readFileSync(urls.lessFile, 'utf-8')
-//           expect(less).toMatchSnapshot()
-//           done()
-//         })
-//       })
-//   })
-//   test('should not extract', done => {
-//     $wb()
-//       .entry({
-//         less: './src/less.less'
-//       })
-//       .output({
-//         path: urls.outputPath
-//       })
-//       .less({
-//         extract: false
-//       })
-//       .value()
-//       .then(conf => {
-//         new WebpackBuilder(conf).compile(() => {
-//           expect(() => {
-//             fse.readFileSync(urls.lessFile, 'utf-8')
-//           }).toThrow()
-//           done()
-//         })
-//       })
-//   })
-// })
-// describe('media brick', () => {
-//   test('should exist', () => {
-//     expect($wb.prototype.media).toBeDefined()
-//     expect($wb.bricks.media).toBeDefined()
-//   })
-//   test('should media default correct', done => {
-//     $wb()
-//       .media()
-//       .value()
-//       .then(conf => {
-//         expect(conf).toMatchSnapshot()
-//         done()
-//       })
-//   })
-// })
+describe('alias brick', () => {
+  test('should alias correct', () => {
+    expect(
+      $().lay(
+        $.alias({
+          '@': __dirname + '/src'
+        })
+      )
+    ).toMatchSnapshot()
+  })
+})
 
-// describe('font brick', () => {
-//   test('should exist', () => {
-//     expect($wb.prototype.font).toBeDefined()
-//     expect($wb.bricks.font).toBeDefined()
-//   })
-//   test('should font default correct', done => {
-//     $wb()
-//       .font()
-//       .value()
-//       .then(conf => {
-//         expect(conf).toMatchSnapshot()
-//         done()
-//       })
-//   })
-// })
+describe('tailAlias brick', () => {
+  test('should default correct', () => {
+    expect($().lay($.tailAlias())).toEqual({
+      resolve: {
+        alias: {}
+      }
+    })
+  })
 
-// describe('alias brick', () => {
-//   test('should exist', () => {
-//     expect($wb.prototype.alias).toBeDefined()
-//   })
-//   test('should alias correct', () => {
-//     expect(
-//       $wb()
-//         .alias({
-//           '@': __dirname + '/src'
-//         })
-//         .value()
-//     ).toMatchSnapshot()
-//   })
-// })
+  test('should tail Alias correct', () => {
+    expect(
+      $().lay(
+        $.tailAlias({
+          vue: 'vue/dist/vue.js'
+        })
+      )
+    ).toMatchSnapshot()
+  })
+})
 
-// describe('tailAlias brick', () => {
-//   test('should exist', () => {
-//     expect($wb.prototype.tailAlias).toBeDefined()
-//   })
-//   test('should default correct', () => {
-//     expect(
-//       $wb()
-//         .tailAlias()
-//         .value()
-//     ).toEqual({
-//       resolve: {
-//         alias: {}
-//       }
-//     })
-//   })
+describe('twig brick', () => {
+  test('should work', done => {
+    $()
+      .lay($.twig())
+      .then(conf => {
+        expect(conf).toMatchSnapshot()
+        done()
+      })
+  })
+})
 
-//   test('should tail Alias correct', () => {
-//     expect(
-//       $wb()
-//         .tailAlias({
-//           vue: 'vue/dist/vue.js'
-//         })
-//         .value()
-//     ).toMatchSnapshot()
-//   })
-// })
-
-// describe('twig brick', () => {
-//   test('should exist', () => {
-//     expect($wb.prototype.twig).toBeDefined()
-//   })
-//   test('should work', done => {
-//     $wb()
-//       .twig()
-//       .value()
-//       .then(conf => {
-//         expect(conf).toMatchSnapshot()
-//         done()
-//       })
-//   })
-// })
+describe('extensions brick', () => {
+  test('should default work', () => {
+    expect($().lay($.extensions())).toMatchSnapshot()
+  })
+  test('should add work', () => {
+    expect($().lay($.extensions(['.cc']))).toMatchSnapshot()
+  })
+})

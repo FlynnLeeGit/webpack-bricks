@@ -2,20 +2,24 @@ const { merge } = require('config-brick')
 const path = require('path')
 
 const glob = require('glob')
+const getMagicIndex = p => {
+  return Math.min(p.indexOf('*'), p.indexOf('!'), p.indexOf('('))
+}
 /**
  * entries Brick
  * @param { string | array } globPatterns
  */
-module.exports = globPatterns =>
+module.exports = (globPatterns = []) =>
   function entries(conf) {
+    const entries = []
+
     if (typeof globPatterns === 'string') {
       globPatterns = [globPatterns]
     }
 
-    const entries = []
     globPatterns.forEach(globPattern => {
       const files = glob.sync(globPattern)
-      const tagIndex = globPattern.indexOf('*')
+      const tagIndex = getMagicIndex(globPattern)
       const basedir = globPattern.substr(0, tagIndex)
       files.forEach(filepath => {
         const absoluteFilepath = path.resolve(filepath)
