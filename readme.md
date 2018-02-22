@@ -8,7 +8,7 @@ let's start by a simple vue config
 
 ```js
 const $ = require('webpack-bricks')
-$().lay(
+const conf = $().lay(
   $.entry(),
   $.output(),
   $.alias({
@@ -31,7 +31,12 @@ $().lay(
 // that's it!
 // because use outputJson()
 // you will find a config.json in process.cwd() location,that's the final config file json
+module.exports = conf // here is a promise
 ```
+
+### auto install devDependencies
+because it could use async function,so now it will auto install devDependencies
+
 
 ### custom brick
 
