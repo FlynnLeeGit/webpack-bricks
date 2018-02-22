@@ -1,51 +1,10 @@
 {
-  "plugins": [
-    {
-      "name": "HappyPack",
-      "state": {
-        "loaders": [],
-        "baseLoaderRequest": "",
-        "foregroundThreadPool": null,
-        "verbose": false,
-        "debug": false
-      },
-      "config": {
-        "id": "css-link",
-        "compilerId": "default",
-        "threads": 3,
-        "verbose": true,
-        "threadPool": {
-          "size": 4
-        },
-        "loaders": [
-          {
-            "loader": "css-loader",
-            "options": {}
-          }
-        ]
-      },
-      "id": "css-link"
-    }
-  ],
   "module": {
     "rules": [
       {
         "test": {},
-        "use": [
-          {
-            "loader": "/Users/lee/Documents/company/webpack-bricks/node_modules/extract-text-webpack-plugin/dist/loader.js",
-            "options": {
-              "omit": 1,
-              "remove": true
-            }
-          },
-          {
-            "loader": "style-loader"
-          },
-          {
-            "loader": "happypack/loader?id=css-link"
-          }
-        ]
+        "loader": "vue-loader",
+        "options": {}
       }
     ]
   }

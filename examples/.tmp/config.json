@@ -12,6 +12,82 @@
       "@": "/Users/lee/Documents/company/webpack-bricks/examples/src"
     }
   },
+  "module": {
+    "rules": [
+      {
+        "test": {},
+        "loader": "url-loader",
+        "options": {
+          "limit": 10000,
+          "name": "static/image/[name].[ext]?[hash:7]"
+        }
+      },
+      {
+        "test": {},
+        "loader": "url-loader",
+        "options": {
+          "limit": 10000,
+          "name": "static/font/[name].[ext]?[hash:7]"
+        }
+      },
+      {
+        "test": {},
+        "loader": "url-loader",
+        "options": {
+          "limit": 10000,
+          "name": "static/media/[name].[ext]?[hash:7]"
+        }
+      },
+      {
+        "test": {},
+        "use": "happypack/loader?id=babel",
+        "exclude": [
+          {}
+        ]
+      },
+      {
+        "test": {},
+        "loader": "vue-loader",
+        "options": {}
+      },
+      {
+        "test": {},
+        "use": [
+          {
+            "loader": "/Users/lee/Documents/company/webpack-bricks/node_modules/extract-text-webpack-plugin/dist/loader.js",
+            "options": {
+              "omit": 1,
+              "remove": true
+            }
+          },
+          {
+            "loader": "style-loader"
+          },
+          {
+            "loader": "happypack/loader?id=css-link"
+          }
+        ]
+      },
+      {
+        "test": {},
+        "use": [
+          {
+            "loader": "/Users/lee/Documents/company/webpack-bricks/node_modules/extract-text-webpack-plugin/dist/loader.js",
+            "options": {
+              "omit": 1,
+              "remove": true
+            }
+          },
+          {
+            "loader": "style-loader"
+          },
+          {
+            "loader": "happypack/loader?id=less-link"
+          }
+        ]
+      }
+    ]
+  },
   "plugins": [
     {
       "name": "HappyPack",
@@ -51,32 +127,56 @@
         "debug": false
       },
       "config": {
-        "id": "css",
+        "id": "css-link",
         "compilerId": "default",
         "threads": 3,
         "verbose": true,
+        "threadPool": {
+          "size": 4
+        },
         "loaders": [
           {
-            "loader": "css-loader"
+            "loader": "css-loader",
+            "options": {}
           }
         ]
       },
-      "id": "css"
-    }
-  ],
-  "module": {
-    "rules": [
-      {
-        "test": {},
-        "use": "happypack/loader?id=babel",
-        "exclude": [
-          {}
+      "id": "css-link"
+    },
+    {
+      "filename": "static/css/[name].css?[contenthash:8]",
+      "id": 1,
+      "options": {}
+    },
+    {
+      "name": "HappyPack",
+      "state": {
+        "loaders": [],
+        "baseLoaderRequest": "",
+        "foregroundThreadPool": null,
+        "verbose": false,
+        "debug": false
+      },
+      "config": {
+        "id": "less-link",
+        "compilerId": "default",
+        "threads": 3,
+        "verbose": true,
+        "threadPool": {
+          "size": 4
+        },
+        "loaders": [
+          {
+            "loader": "css-loader",
+            "options": {}
+          },
+          {
+            "loader": "less-loader",
+            "options": {}
+          }
         ]
       },
-      {
-        "test": {},
-        "use": "happypack/loader?id=css"
-      }
-    ]
-  }
+      "id": "less-link"
+    }
+  ]
 }
