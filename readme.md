@@ -31,12 +31,12 @@ const conf = $().lay(
 // that's it!
 // because use outputJson()
 // you will find a config.json in process.cwd() location,that's the final config file json
-module.exports = conf // here is a promise
+module.exports = conf
 ```
 
 ### auto install devDependencies
-because it could use async function,so now it will auto install devDependencies
 
+because it could use async function,so now it will auto install devDependencies
 
 ### custom brick
 
@@ -99,4 +99,32 @@ $({ a: [1, 2], b: 2 }).lay(
 
 merge({ a: [2], b: 3 })({ a: [1, 2], b: 2 })
 // -> {a:[1,2],b:3}
+```
+
+### custom brick with auto-install deps
+
+```js
+// custom.js
+const { deps } = require('webpack-bricks')
+
+module.exports = options =>
+  function custom(conf) {
+    // sync install deps
+    deps(['lodash'])
+    conf.custom = {
+      customOptions: options
+    }
+    return conf
+  }
+
+// webpack.config.js
+const $ = require('webpack-bricks')
+const custom = require('./custom.js')
+const conf = $().lay(custom({ c: 3 }))
+console.log(conf)
+// -> {
+//   custom:{
+//     customOptions: { c : 3 }
+//   }
+// }
 ```

@@ -6,7 +6,8 @@ const deps = require('./deps')
  * babel Brick
  */
 module.exports = options =>
-  deps(['happypack', 'babel-loader', 'babel-core']).then(() => {
+  function babel(conf) {
+    deps(['happypack', 'babel-loader', 'babel-core'])
     const HappyPack = require('happypack')
     const threadPool = require('./_thread-pool')
 
@@ -15,25 +16,23 @@ module.exports = options =>
     }
     const babelOptions = merge(options)(defaultOptions)
 
-    const babelBrick = conf =>
-      pipe(
-        plugin(
-          new HappyPack({
-            id: 'babel',
-            threadPool,
-            loaders: [
-              {
-                loader: 'babel-loader',
-                options: babelOptions
-              }
-            ]
-          })
-        ),
-        loader({
-          test: /\.js$/,
-          use: 'happypack/loader?id=babel',
-          exclude: [/node_modules/]
+    return pipe(
+      plugin(
+        new HappyPack({
+          id: 'babel',
+          threadPool,
+          loaders: [
+            {
+              loader: 'babel-loader',
+              options: babelOptions
+            }
+          ]
         })
-      )(conf)
-    return babelBrick
-  })
+      ),
+      loader({
+        test: /\.js$/,
+        use: 'happypack/loader?id=babel',
+        exclude: [/node_modules/]
+      })
+    )(conf)
+  }

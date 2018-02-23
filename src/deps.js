@@ -1,28 +1,30 @@
 const { merge } = require('config-brick')
 const install = require('yarn-install')
+const fs = require('fs')
+const path = require('path')
+const { yellow, green } = require('chalk')
 
-const { yellow } = require('chalk')
-
-const deps = (deps, opts) =>
-  new Promise((resolve, reject) => {
-    const depNotInstalled = []
-    deps.forEach(dep => {
-      try {
-        require.resolve(dep)
-      } catch (e) {
-        console.log(`[webpack-bricks] dep not installed ${yellow(dep)}`)
-        depNotInstalled.push(dep)
-      }
-    })
-    if (depNotInstalled.length) {
-      const installOpts = merge(opts)({ dev: true })
-      install(depNotInstalled, installOpts)
-      process.nextTick(() => {
-        resolve()
-      })
-    } else {
-      resolve()
+/**
+ * check dep is exist in module.paths
+ * @param {string} dep dep name
+ * @return {boolean}
+ */
+const depExistSync = dep =>
+  module.paths.some(mDir => fs.existsSync(path.join(mDir, dep)))
+/**
+ * sync deps installer
+ * @param {Array<string>} deps
+ * @param {object} opts
+ * @return {void}
+ */
+const deps = (deps, opts, name = green('webpack-bricks')) => {
+  const depNotInstalled = []
+  deps.forEach(dep => {
+    if (!depExistSync(dep)) {
+      console.log(`[ ${name} ] dep ${yellow(dep)} not installed `)
+      install([dep], merge(opts)({ dev: true }))
     }
   })
+}
 
 module.exports = deps

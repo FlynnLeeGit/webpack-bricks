@@ -12,6 +12,7 @@ class Urls {
     this.lessFile = path.join(this.staticPath, 'css', 'less.css')
     this.sassFile = path.join(this.staticPath, 'css', 'sass.css')
     this.twigFile = path.join(this.staticPath, 'js', 'twig.js')
+    this.uglifyFile = path.join(this.staticPath, 'js', 'uglify.js')
   }
 }
 
@@ -47,15 +48,10 @@ describe('deps uitls work', () => {
   })
   test('should install deps when there is not in node_modules', done => {
     const nodeModules = path.resolve(__dirname, '..', 'node_modules')
-    const fileLoader = path.join(nodeModules, 'file-loader')
-    fse.removeSync(fileLoader)
-    deps(['file-loader']).then(() => {
-      require.resolve('file-loader')
-      done()
-    })
-  })
-  test('should just resolved when installed', done => {
-    deps(['file-loader']).then(done)
+    const isarray = path.join(nodeModules, 'isarray')
+
+    fse.removeSync(isarray)
+    deps(['isarray'])
   })
 })
 
@@ -201,246 +197,205 @@ describe('output brick', () => {
 
 describe('babel brick', () => {
   test('babel should work', done => {
-    $()
-      .lay(
-        $.entry(),
-        $.output({
-          path: urls.outputPath
-        }),
-        $.babel()
-      )
-      .then(conf => {
-        new WebpackBuilder(conf).compile(() => {
-          const file = fse.readFileSync(urls.jsFile, 'utf-8')
-          expect(file).toMatchSnapshot()
-          done()
-        })
-      })
+    const conf = $().lay(
+      $.entry(),
+      $.output({
+        path: urls.outputPath
+      }),
+      $.babel()
+    )
+    new WebpackBuilder(conf).compile(() => {
+      const file = fse.readFileSync(urls.jsFile, 'utf-8')
+      expect(file).toMatchSnapshot()
+      done()
+    })
   })
 })
 
 describe('vue brick', () => {
   test('vue should work', done => {
-    $()
-      .lay(
-        $.entry({
-          vue: './src/vue.js'
-        }),
-        $.output({
-          path: urls.outputPath
-        }),
-        $.vue()
-      )
-      .then(conf => {
-        new WebpackBuilder(conf).compile(() => {
-          const file = fse.readFileSync(urls.vueFile, 'utf-8')
-          expect(file).toMatchSnapshot()
-          done()
-        })
-      })
+    const conf = $().lay(
+      $.entry({
+        vue: './src/vue.js'
+      }),
+      $.output({
+        path: urls.outputPath
+      }),
+      $.vue()
+    )
+    new WebpackBuilder(conf).compile(() => {
+      const file = fse.readFileSync(urls.vueFile, 'utf-8')
+      expect(file).toMatchSnapshot()
+      done()
+    })
   })
 })
 
 describe('image brick', () => {
-  test('should image default correct', done => {
-    $()
-      .lay($.image())
-      .then(conf => {
-        expect(conf).toMatchSnapshot()
-        done()
-      })
+  test('should image default correct', () => {
+    expect($().lay($.image())).toMatchSnapshot()
   })
 })
 describe('font brick', () => {
-  test('should font default correct', done => {
-    $()
-      .lay($.font())
-      .then(conf => {
-        expect(conf).toMatchSnapshot()
-        done()
-      })
+  test('should font default correct', () => {
+    expect($().lay($.font())).toMatchSnapshot()
   })
 })
 describe('media brick', () => {
-  test('should media default correct', done => {
-    $()
-      .lay($.media())
-      .then(conf => {
-        expect(conf).toMatchSnapshot()
-        done()
-      })
+  test('should media default correct', () => {
+    expect($().lay($.media())).toMatchSnapshot()
   })
 })
 describe('css brick', () => {
   test('should work', done => {
-    $()
-      .lay(
-        $.entry({
-          css: './src/css.css'
-        }),
-        $.output({
-          path: urls.outputPath
-        }),
-        $.css()
-      )
-      .then(conf => {
-        new WebpackBuilder(conf).compile(() => {
-          const css = fse.readFileSync(urls.cssFile, 'utf-8')
-          expect(css).toMatchSnapshot()
-          done()
-        })
-      })
+    const conf = $().lay(
+      $.entry({
+        css: './src/css.css'
+      }),
+      $.output({
+        path: urls.outputPath
+      }),
+      $.css()
+    )
+
+    new WebpackBuilder(conf).compile(() => {
+      const css = fse.readFileSync(urls.cssFile, 'utf-8')
+      expect(css).toMatchSnapshot()
+      done()
+    })
   })
   test('should not extract', done => {
-    $()
-      .lay(
-        $.entry({
-          less: './src/css.css'
-        }),
-        $.output({
-          path: urls.outputPath
-        }),
-        $.css({
-          extract: false
-        })
-      )
-      .then(conf => {
-        new WebpackBuilder(conf).compile(() => {
-          expect(() => {
-            fse.readFileSync(urls.cssFile, 'utf-8')
-          }).toThrow()
-          done()
-        })
+    const conf = $().lay(
+      $.entry({
+        less: './src/css.css'
+      }),
+      $.output({
+        path: urls.outputPath
+      }),
+      $.css({
+        extract: false
       })
+    )
+    new WebpackBuilder(conf).compile(() => {
+      expect(() => {
+        fse.readFileSync(urls.cssFile, 'utf-8')
+      }).toThrow()
+      done()
+    })
   })
 })
 
 describe('less brick', () => {
   test('should work', done => {
-    $()
-      .lay(
-        $.entry({
-          less: './src/less.less'
-        }),
-        $.output({
-          path: urls.outputPath
-        }),
-        $.less()
-      )
-      .then(conf => {
-        new WebpackBuilder(conf).compile(() => {
-          const less = fse.readFileSync(urls.lessFile, 'utf-8')
-          expect(less).toMatchSnapshot()
-          done()
-        })
-      })
+    const conf = $().lay(
+      $.entry({
+        less: './src/less.less'
+      }),
+      $.output({
+        path: urls.outputPath
+      }),
+      $.less()
+    )
+    new WebpackBuilder(conf).compile(() => {
+      const less = fse.readFileSync(urls.lessFile, 'utf-8')
+      expect(less).toMatchSnapshot()
+      done()
+    })
   })
   test('should not extract', done => {
-    $()
-      .lay(
-        $.entry({
-          less: './src/less.less'
-        }),
-        $.output({
-          path: urls.outputPath
-        }),
-        $.less({
-          extract: false
-        })
-      )
-      .then(conf => {
-        new WebpackBuilder(conf).compile(() => {
-          expect(() => {
-            fse.readFileSync(urls.lessFile, 'utf-8')
-          }).toThrow()
-          done()
-        })
+    const conf = $().lay(
+      $.entry({
+        less: './src/less.less'
+      }),
+      $.output({
+        path: urls.outputPath
+      }),
+      $.less({
+        extract: false
       })
+    )
+    new WebpackBuilder(conf).compile(() => {
+      expect(() => {
+        fse.readFileSync(urls.lessFile, 'utf-8')
+      }).toThrow()
+      done()
+    })
   })
 })
 
-describe.skip('sass brick test', () => {
+describe('sass brick test', () => {
   test('should scss link work', done => {
-    $()
-      .lay(
-        $.entry({
-          sass: './src/sass.scss'
-        }),
-        $.output({
-          path: urls.outputPath
-        }),
-        $.sass()
-      )
-      .then(conf => {
-        new WebpackBuilder(conf).compile(() => {
-          const sass = fse.readFileSync(urls.sassFile, 'utf-8')
-          expect(sass).toMatchSnapshot()
-          done()
-        })
-      })
+    const conf = $().lay(
+      $.entry({
+        sass: './src/sass.scss'
+      }),
+      $.output({
+        path: urls.outputPath
+      }),
+      $.sass()
+    )
+    new WebpackBuilder(conf).compile(() => {
+      const sass = fse.readFileSync(urls.sassFile, 'utf-8')
+      expect(sass).toMatchSnapshot()
+      done()
+    })
   })
   test('should scss not extract', done => {
-    $()
-      .lay(
-        $.entry({
-          sass: './src/sass.scss'
-        }),
-        $.output({
-          path: urls.outputPath
-        }),
-        $.sass({
-          extract: false
-        })
-      )
-      .then(conf => {
-        new WebpackBuilder(conf).compile(() => {
-          expect(() => {
-            fse.readFileSync(urls.sassFile, 'utf-8')
-          }).toThrow()
-          done()
-        })
+    const conf = $().lay(
+      $.entry({
+        sass: './src/sass.scss'
+      }),
+      $.output({
+        path: urls.outputPath
+      }),
+      $.sass({
+        extract: false
       })
+    )
+
+    new WebpackBuilder(conf).compile(() => {
+      expect(() => {
+        fse.readFileSync(urls.sassFile, 'utf-8')
+      }).toThrow()
+      done()
+    })
   })
   test('should sass link work', done => {
-    $()
-      .lay(
-        $.entry({
-          sass: './src/sass.sass'
-        }),
-        $.output({
-          path: urls.outputPath
-        }),
-        $.sass()
-      )
-      .then(conf => {
-        new WebpackBuilder(conf).compile(() => {
-          const sass = fse.readFileSync(urls.sassFile, 'utf-8')
-          expect(sass).toMatchSnapshot()
-          done()
-        })
-      })
+    const conf = $().lay(
+      $.entry({
+        sass: './src/sass.sass'
+      }),
+      $.output({
+        path: urls.outputPath
+      }),
+      $.sass()
+    )
+
+    new WebpackBuilder(conf).compile(() => {
+      const sass = fse.readFileSync(urls.sassFile, 'utf-8')
+      expect(sass).toMatchSnapshot()
+      done()
+    })
   })
   test('should sass not extract', done => {
-    $()
-      .lay(
-        $.entry({
-          sass: './src/sass.sass'
-        }),
-        $.output({
-          path: urls.outputPath
-        }),
-        $.sass({
-          extract: false
-        })
-      )
-      .then(conf => {
-        new WebpackBuilder(conf).compile(() => {
-          expect(() => {
-            fse.readFileSync(urls.sassFile, 'utf-8')
-          }).toThrow()
-          done()
-        })
+    const conf = $().lay(
+      $.entry({
+        sass: './src/sass.sass'
+      }),
+      $.output({
+        path: urls.outputPath
+      }),
+      $.sass({
+        extract: false
       })
+    )
+
+    new WebpackBuilder(conf).compile(() => {
+      expect(() => {
+        fse.readFileSync(urls.sassFile, 'utf-8')
+      }).toThrow()
+      done()
+    })
   })
 })
 
@@ -477,13 +432,8 @@ describe('tailAlias brick', () => {
 })
 
 describe('twig brick', () => {
-  test('should work', done => {
-    $()
-      .lay($.twig())
-      .then(conf => {
-        expect(conf).toMatchSnapshot()
-        done()
-      })
+  test('should work', () => {
+    expect($().lay($.twig())).toMatchSnapshot()
   })
 })
 
@@ -493,5 +443,25 @@ describe('extensions brick', () => {
   })
   test('should add work', () => {
     expect($().lay($.extensions(['.cc']))).toMatchSnapshot()
+  })
+})
+
+describe('uglify brick', () => {
+  test('should uglify ok', done => {
+    const conf = $().lay(
+      $.entry({
+        uglify: './src/uglify.js'
+      }),
+      $.output({
+        path: urls.outputPath
+      }),
+      $.uglify()
+    )
+
+    new WebpackBuilder(conf).compile(() => {
+      const uglifyFile = fse.readFileSync(urls.uglifyFile, 'utf-8')
+      expect(uglifyFile).toMatchSnapshot()
+      done()
+    })
   })
 })

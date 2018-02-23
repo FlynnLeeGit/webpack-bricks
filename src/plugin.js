@@ -2,13 +2,13 @@ const { merge } = require('config-brick')
 
 /**
  * plugin brick
- * @param { array } plugins
- * @param { object } conf
- * @return { object }
- * @example
+ * @param { array } opts
+ * @return { Function }
  *
  */
-module.exports = (...plugins) => conf =>
-  merge({
-    plugins: [...plugins]
-  })(conf)
+module.exports = (...opts) =>
+  function plugin(conf) {
+    return merge({
+      plugins: [...opts]
+    })(conf)
+  }

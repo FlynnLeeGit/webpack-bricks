@@ -1,8 +1,10 @@
 const { merge } = require('config-brick')
 
-module.exports = (...loaders) => conf =>
-  merge({
-    module: {
-      rules: [...loaders]
-    }
-  })(conf)
+module.exports = (...opts) =>
+  function loader(conf) {
+    return merge({
+      module: {
+        rules: [...opts]
+      }
+    })(conf)
+  }
