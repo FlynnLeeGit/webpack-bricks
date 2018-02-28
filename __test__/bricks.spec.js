@@ -21,7 +21,11 @@ class WebpackBuilder {
   constructor(userConfig) {
     this.webpackConfig = Object.assign(
       {
-        context: __dirname
+        context: __dirname,
+        optimization: {
+          // disabel uglify in test
+          minimize: false
+        }
       },
       userConfig
     )

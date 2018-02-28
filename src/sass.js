@@ -8,15 +8,12 @@ const _ = require('lodash')
 module.exports = opts =>
   function sass(conf) {
     deps([
-      'happypack',
       'extract-text-webpack-plugin',
       'css-loader',
       'style-loader',
       'node-sass',
       'sass-loader'
     ])
-    const HappyPack = require('happypack')
-    const threadPool = require('./_thread-pool')
     const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
     const { css, style, extract, sass } = $.merge(opts)({
@@ -39,32 +36,18 @@ module.exports = opts =>
             test: /\.scss$/,
             use: ExtractTextPlugin.extract({
               fallback: 'style-loader',
-              use: 'happypack/loader?id=scss-link'
-            })
-          }),
-          plugin(
-            new HappyPack({
-              id: 'scss-link',
-              threadPool,
-              loaders: [
+              use: [
                 { loader: 'css-loader', options: css },
                 { loader: 'sass-loader', options: sass }
               ]
             })
-          ),
+          }),
           // for .sass
           loader({
-            test: /\.sass$/,
+            test: /\.scss$/,
             use: ExtractTextPlugin.extract({
               fallback: 'style-loader',
-              use: 'happypack/loader?id=sass-link'
-            })
-          }),
-          plugin(
-            new HappyPack({
-              id: 'sass-link',
-              threadPool,
-              loaders: [
+              use: [
                 { loader: 'css-loader', options: css },
                 {
                   loader: 'sass-loader',
@@ -72,43 +55,30 @@ module.exports = opts =>
                 }
               ]
             })
-          )
+          })
         )(conf)
       : $.lay(
           // for .scss
           loader({
             test: /\.scss$/,
-            use: 'happypack/loader?id=scss'
+            use: [
+              { loader: 'style-loader', options: style },
+              { loader: 'css-loader', options: css },
+              { loader: 'sass-loader', options: sass }
+            ]
           }),
-          plugin(
-            new HappyPack({
-              id: 'scss',
-              threadPool,
-              loaders: [
-                { loader: 'style-loader', options: style },
-                { loader: 'css-loader', options: css },
-                { loader: 'sass-loader', options: sass }
-              ]
-            })
-          ),
+
           // for .sass
           loader({
             test: /\.sass$/,
-            use: 'happypack/loader?id=sass'
-          }),
-          plugin(
-            new HappyPack({
-              id: 'sass',
-              threadPool,
-              loaders: [
-                { loader: 'style-loader', options: style },
-                { loader: 'css-loader', options: css },
-                {
-                  loader: 'sass-loader',
-                  options: $.merge(sass)({ indentedSyntax: true })
-                }
-              ]
-            })
-          )
+            use: [
+              { loader: 'style-loader', options: style },
+              { loader: 'css-loader', options: css },
+              {
+                loader: 'sass-loader',
+                options: $.merge(sass)({ indentedSyntax: true })
+              }
+            ]
+          })
         )(conf)
   }

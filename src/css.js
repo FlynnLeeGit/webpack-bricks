@@ -7,14 +7,7 @@ const _ = require('lodash')
 
 module.exports = options =>
   function css(conf) {
-    deps([
-      'happypack',
-      'extract-text-webpack-plugin',
-      'css-loader',
-      'style-loader'
-    ])
-    const HappyPack = require('happypack')
-    const threadPool = require('./_thread-pool')
+    deps(['extract-text-webpack-plugin', 'css-loader', 'style-loader'])
     const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
     const defaultOptions = {
@@ -29,38 +22,30 @@ module.exports = options =>
     const extracted = _.find(conf.plugins, {
       filename: extract.filename
     })
+
     return extract
       ? $.lay(
-          plugin(
-            new HappyPack({
-              id: 'css-link',
-              threadPool,
-              loaders: [{ loader: 'css-loader', options: css }]
-            })
-          ),
           $.if(!extracted, [plugin(new ExtractTextPlugin(extract))]),
           loader({
             test: /\.css$/,
             use: ExtractTextPlugin.extract({
               fallback: 'style-loader',
-              use: 'happypack/loader?id=css-link'
+              use: [
+                {
+                  loader: 'css-loader',
+                  options: css
+                }
+              ]
             })
           })
         )(conf)
       : $.lay(
-          plugin(
-            new HappyPack({
-              id: 'css',
-              threadPool,
-              loaders: [
-                { loader: 'style-loader', options: style },
-                { loader: 'css-loader', options: css }
-              ]
-            })
-          ),
           loader({
             test: /\.css$/,
-            use: 'happypack/loader?id=css'
+            use: [
+              { loader: 'style-loader', options: style },
+              { loader: 'css-loader', options: css }
+            ]
           })
         )(conf)
   }

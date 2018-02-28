@@ -13,7 +13,6 @@ const jsTask = $().lay(
   $.alias({
     '@': __dirname + '/src'
   }),
-  $.uglify(),
   $.outputJson('.tmp/config.json')
 )
 

@@ -7,32 +7,16 @@ const deps = require('./deps')
  */
 module.exports = options =>
   function babel(conf) {
-    deps(['happypack', 'babel-loader', 'babel-core'])
-    const HappyPack = require('happypack')
-    const threadPool = require('./_thread-pool')
+    deps(['babel-loader', 'babel-core'])
 
     const defaultOptions = {
       cacheDirectory: true
     }
     const babelOptions = merge(options)(defaultOptions)
 
-    return pipe(
-      plugin(
-        new HappyPack({
-          id: 'babel',
-          threadPool,
-          loaders: [
-            {
-              loader: 'babel-loader',
-              options: babelOptions
-            }
-          ]
-        })
-      ),
-      loader({
-        test: /\.js$/,
-        use: 'happypack/loader?id=babel',
-        exclude: [/node_modules/]
-      })
-    )(conf)
+    return loader({
+      test: /\.jsx?$/,
+      loader: 'babel-loader',
+      options: babelOptions
+    })(conf)
   }

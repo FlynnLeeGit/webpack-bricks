@@ -8,15 +8,12 @@ const _ = require('lodash')
 module.exports = opts =>
   function less(conf) {
     deps([
-      'happypack',
       'extract-text-webpack-plugin',
       'css-loader',
       'style-loader',
       'less',
       'less-loader'
     ])
-    const HappyPack = require('happypack')
-    const threadPool = require('./_thread-pool')
     const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
     const { css, style, extract, less } = $.merge(opts)({
@@ -33,40 +30,26 @@ module.exports = opts =>
     })
     return extract
       ? $.lay(
-          plugin(
-            new HappyPack({
-              id: 'less-link',
-              threadPool,
-              loaders: [
-                { loader: 'css-loader', options: css },
-                { loader: 'less-loader', options: less }
-              ]
-            })
-          ),
           $.if(!extracted, [plugin(new ExtractTextPlugin(extract))]),
           loader({
             test: /\.less$/,
             use: ExtractTextPlugin.extract({
               fallback: 'style-loader',
-              use: 'happypack/loader?id=less-link'
-            })
-          })
-        )(conf)
-      : $.lay(
-          plugin(
-            new HappyPack({
-              id: 'less',
-              threadPool,
-              loaders: [
-                { loader: 'style-loader', options: style },
+              use: [
                 { loader: 'css-loader', options: css },
                 { loader: 'less-loader', options: less }
               ]
             })
-          ),
+          })
+        )(conf)
+      : $.lay(
           loader({
             test: /\.less$/,
-            use: 'happypack/loader?id=less'
+            use: [
+              { loader: 'style-loader', options: style },
+              { loader: 'css-loader', options: css },
+              { loader: 'less-loader', options: less }
+            ]
           })
         )(conf)
   }

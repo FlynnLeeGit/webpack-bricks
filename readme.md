@@ -1,10 +1,10 @@
 ## Webpack-Bricks
 
 #### simply webpack config use standard brick function
-
-powered by [config-brick](https://www.npmjs.com/package/config-brick)
+[ Now Support Webpack `^4.0` ] powered by [config-brick](https://www.npmjs.com/package/config-brick)
 
 let's start by a simple vue config
+
 
 ```js
 const $ = require('webpack-bricks')
