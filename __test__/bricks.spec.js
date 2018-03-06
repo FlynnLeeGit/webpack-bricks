@@ -162,6 +162,13 @@ describe('entries brick', () => {
     )
     expect(conf).toMatchSnapshot()
   })
+
+  test('should views entries ok', () => {
+    const conf = $().lay(
+      $.entries([path.join(__dirname,'./src/views/**/*.entry.js')])
+    )
+  });
+
   test('should glob string path ok', () => {
     const conf = $().lay(
       $.entries(path.join(__dirname, './src/less/**/!(_*).less'))

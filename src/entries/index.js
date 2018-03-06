@@ -2,8 +2,24 @@ const { merge } = require('config-brick')
 const path = require('path')
 
 const glob = require('glob')
+
+/**
+ * get the min index of magic string
+ * @param { string } p globPathPattern
+ */
 const getMagicIndex = p => {
-  return Math.min(p.indexOf('*'), p.indexOf('!'), p.indexOf('('))
+  const idxArr = []
+  const i1 = p.indexOf('*')
+  const i2 = p.indexOf('!')
+  const i3 = p.indexOf('(')
+  if (i1 > -1) idxArr.push(i1)
+  if (i2 > -1) idxArr.push(i2)
+  if (i3 > -1) idxArr.push(i3)
+  if (idxArr.length) {
+    return Math.min(...idxArr)
+  } else {
+    return -1
+  }
 }
 /**
  * entries Brick

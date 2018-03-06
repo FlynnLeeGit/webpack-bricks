@@ -1,6 +1,7 @@
 {
   "entry": {
-    "main": "./src/main.js"
+    "page1": "/Users/lee/Documents/company/webpack-bricks/examples/src/page1",
+    "page2": "/Users/lee/Documents/company/webpack-bricks/examples/src/page2"
   },
   "output": {
     "path": "/Users/lee/Documents/company/webpack-bricks/examples/dist",

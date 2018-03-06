@@ -1,7 +1,10 @@
 const $ = require('../src/index')
 
 const jsTask = $().lay(
-  $.entry(),
+  $.entry({
+    page1:__dirname + '/src/page1',
+    page2:__dirname  + '/src/page2'
+  }),
   $.output(),
   $.css(),
   $.less(),
