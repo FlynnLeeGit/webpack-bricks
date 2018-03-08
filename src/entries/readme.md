@@ -1,6 +1,7 @@
 ## entries brick
 
 use glob path as webpack entry point
+
 ```shell
 src.less
 ├── app.less
@@ -8,16 +9,16 @@ src.less
 ├── theme_blue.less
 ├── _vars.less
 └── _button.less
-
-
-
 ```
 
-
 ```js
-$wb().entries(['./src/less/**/!(_*).less']).output().less().done()
+$().lay(
+  $.entries(['./src/less/**/!(_*).less']), //
+  $.output(),
+  $.less()
+)
 
-// this config entry will be 
+// this config entry will be
 {
   'app':'./src/less/app.less',
   'theme_pink':'./src/less/theme_pink.less',

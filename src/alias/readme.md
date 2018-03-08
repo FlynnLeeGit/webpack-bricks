@@ -1,44 +1,34 @@
 ## alias brick
 
-### bricks.alias
-
-use
+$.alias
 
 ```js
 // just wrapper of resolve.alias config
 
-createConfig([
-  //...
-  alias:{
-    @:path.resolve("src")
-  }
-  //...
-])
-
+$().lay(
+  $.alias({
+    '@': path.resolve('src')
+  })
+)
 
 // in you js file
 import '@/assets/test.png' // -> import 'src/assets/test.png'
 ```
 
-### bricks.tailAlias
+### $.tailAlias
 
-like alias,but add '$' at tail content
-
-use
+like alias,but add '$' at name's tail
 
 ```js
 // just wrapper of resolve.alias config
-
-createConfig([
-  //...
-  tailAlias({
+$().lay(
+  $.tailAlias({
     'jquery-datetimepicker':
       'jquery-datetimepicker/build/jquery.datetimepicker.full.min.js',
     'jquery-datetimepicker.style':
       'jquery-datetimepicker/build/jquery.datetimepicker.min.css'
   })
-  //...
-])
+)
 
 // in you js file
 import 'jquery-datetimepicker'
